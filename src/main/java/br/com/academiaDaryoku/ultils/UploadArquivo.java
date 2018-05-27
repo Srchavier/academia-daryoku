@@ -28,6 +28,7 @@ public class UploadArquivo implements Serializable {
 
 	public String getRealPath() {
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		@SuppressWarnings("unused")
 		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
 
 		FacesContext aFacesContext = FacesContext.getCurrentInstance();

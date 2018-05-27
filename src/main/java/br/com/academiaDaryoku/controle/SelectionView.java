@@ -30,7 +30,7 @@ public class SelectionView implements Serializable {
 	public void init() {
 		listaDeAlunos = new ArrayList<>();
 		selectedPessoas = new ArrayList<>();
-		selectedPessoa = new TbPessoa();
+		setSelectedPessoa(new TbPessoa());
 		buscar();
 	}
 
@@ -52,6 +52,14 @@ public class SelectionView implements Serializable {
 
 	public void setListaDeAlunos(List<TbPessoa> listaDeAlunos) {
 		this.listaDeAlunos = listaDeAlunos;
+	}
+
+	public TbPessoa getSelectedPessoa() {
+		return selectedPessoa;
+	}
+
+	public void setSelectedPessoa(TbPessoa selectedPessoa) {
+		this.selectedPessoa = selectedPessoa;
 	}
 
 }
