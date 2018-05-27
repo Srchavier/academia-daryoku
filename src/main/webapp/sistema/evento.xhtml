@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+		<h1 class="aw-page-title">Eventos</h1>
+		<h:form id="form">
+			<p:repeat var="list" value="#{scheduleView.repeatPaginator.model}">
+				<div class="card-block well">
+					<div class="row">
+
+						<div class="col-lg-4 ">
+							<ul class="list-group">
+								<li class="list-group-item"><span class="badge"><p:outputLabel
+											value="#{list.dateInicil}">
+											<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+										</p:outputLabel></span> #{list.nome}</li>
+							</ul>
+						</div>
+						<div class="col-lg-8">
+							<div class="list-group">
+								<ul class="list-group-item">
+									<h4 class="list-group-item-heading alert alert-success">#{list.subTitulo}</h4>
+									<li class="list-group-item"><h:outputText
+											value="#{list.descricao}" escape="false" /></li>
+								</ul>
+								<br/>
+								<span class="badge" title="data-início"><h:outputLabel
+										value="#{list.dateInicil}">
+
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>
+									</h:outputLabel></span> ás <span class="badge" title="data-fim"><h:outputLabel
+										value="#{list.dateFim}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>
+									</h:outputLabel></span>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</p:repeat>
+			<center>
+				<h:commandButton value="&lt; voltar"
+					action="#{scheduleView.repeatPaginator.prev}" />
+				<h:outputText
+					value="#{scheduleView.repeatPaginator.pageIndex} / #{scheduleView.repeatPaginator.pages}" />
+				<h:commandButton value="próxima &gt;"
+					action="#{scheduleView.repeatPaginator.next}" disabled="#{scheduleView.repeatPaginator.pages == scheduleView.repeatPaginator.pageIndex}" />
+				<h:inputHidden value="#{scheduleView.repeatPaginator.pageIndex}" />
+			</center>
+			<br />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Manager pathname="" />
+	<Resource name="BeanManager" auth="Container"
+		type="javax.enterprise.inject.spi.BeanManager" factory="org.jboss.weld.resources.ManagerObjectFactory" />
+		
+		<beans:property name="hibernateProperties">
+        <beans:props>
+
+            <beans:prop key="hibernate.enable_lazy_load_no_trans">true</beans:prop>
+
+        </beans:props>
+    </beans:property>
+</Context>

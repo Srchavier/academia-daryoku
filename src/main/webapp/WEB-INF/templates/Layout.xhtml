@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="menu.css" />
+
+</h:head>
+
+<h:body>
+	<header>
+	<title>Karatê-Dô Shotokan</title>
+	<ui:include src="MenuTop.xhtml" /> </header>
+
+	<div class="container-fluid text-center">
+		<div class="row content">
+			<div class="col-sm-2">
+				<aside> <ui:include src="MenuRight.xhtml" /> </aside>
+			</div>
+			<div class="col-sm-10 text-left">
+				<section> <ui:insert name="content" /> </section>
+			</div>
+		</div>
+	</div>
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<p:graphicImage name="/gif/Loading_icon.gif" />
+	</p:dialog>
+	<footer class="container-fluid text-center">
+	<p>Academia Daryoku</p>
+	</footer>
+	<h:outputScript library="primefaces" name="jquery/jquery.js"
+		target="head" />
+	<h:outputScript library="primefaces" name="jquery/jquery-plugins.js"
+		target="head" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<h:outputScript name="bootstrap-3.3.7-dist/js/bootstrap.min.js" />
+	<h:outputScript library="js" name="script.js" />
+	<script type="text/javascript">
+	var nuevoalias = jQuery.noConflict();
+	nuevoalias(document).ready(function() {
+		console.log('Conflito resolvindo entre jquerys');
+	});
+</script>
+</h:body>
+
+</html>

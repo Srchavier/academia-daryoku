@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/Layout.xhtml">
+	<ui:define name="head">
+		<title>Perfil</title>
+
+		<h:outputStylesheet library="css" name="cssPagina.css" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12" style="padding-top: 20px">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">Perfil</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3 col-lg-3 " align="center">
+
+									<div class="text-center">
+										<p:graphicImage value="#{perfilControle.carregarImagem()}"
+											cache="false" class="img-thumbnail">
+										</p:graphicImage>
+									</div>
+
+									<p:commandLink value="Editar" update="fotoDialog"
+										process="@this" oncomplete="PF('edicaoFotoDialog').show()" />
+								</div>
+
+								<div class=" col-md-9 col-lg-9 ">
+									<table class="table table-user-information">
+										<tbody>
+											<tr>
+												<td>Nome:</td>
+												<td><p:outputLabel>#{perfilControle.tbPessoa.nmPessoa}</p:outputLabel></td>
+											</tr>
+											<tr>
+												<td>Data de nascimento:</td>
+												<td><p:outputLabel
+														value="#{perfilControle.tbPessoa.dtNascimento}">
+														<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+													</p:outputLabel></td>
+											</tr>
+											<tr>
+												<td>Sexo:</td>
+												<td><p:outputLabel>#{perfilControle.tbPessoa.flSexo.descricao}</p:outputLabel></td>
+											</tr>
+
+											<tr>
+												<td>Matrícula:</td>
+												<td><p:outputLabel>#{perfilControle.tbUsuario.matLogin}</p:outputLabel></td>
+											</tr>
+											<tr>
+												<td>Turma:</td>
+												<td><p:outputLabel>#{perfilControle.tbPessoa.tbTurma.nome}</p:outputLabel></td>
+											</tr>
+											<tr>
+												<td>Email:</td>
+												<td><a href="mailto:#{usuarioContato.email}"><p:outputLabel>#{perfilControle.tbContato.email}</p:outputLabel></a></td>
+											</tr>
+											<td>Telefone:</td>
+											<td><p:outputLabel>#{perfilControle.tbContato.tele1}<br />
+													<br />#{perfilControle.tbContato.tele2}
+											</p:outputLabel></td>
+
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<p:commandLink value="Editar" class="glyphicon glyphicon-edit"
+								actionListener="#" update="pessoaDialog" process="@this"
+								oncomplete="PF('edicaoPessoaDialog').show()">
+								<p:resetInput target="pessoaDialog" />
+							</p:commandLink>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="ui-g">
+				<div class="ui-g-12 ui-md-6">
+					<p:dialog header="Edição de dados" widgetVar="edicaoPessoaDialog"
+						id="pessoaDialog" resizable="true" draggable="true"
+						responsive="true" closeOnEscape="true" fitViewport="true"
+						width="1000" modal="true" showHeader="true">
+
+						<p:growl id="msgPessoaDialog" showDetail="true" showSummary="true" />
+
+						<p:defaultCommand target="salvar-button" scope="pessoaDialog" />
+
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6">
+								<p:panelGrid id="pnlPessoaDialog1" columns="2" layout="grid"
+									styleClass="ui-panelgrid-blank">
+									<p:outputLabel value="Nome:" for="nome" />
+									<p:inputText id="nome"
+										value="#{perfilControle.tbPessoa.nmPessoa}" required="true"
+										requiredMessage="Campo nome é obrigatório."
+										validatorMessage="Informe o seu nome de 30 a 120 caracteres." />
+
+									<p:outputLabel value="CPF Opcional:" for="cpf" />
+									<p:inputMask id="cpf" mask="999.999.999-99"
+										value="#{perfilControle.tbPessoa.cpf}" />
+
+									<p:outputLabel for="dtNascimento:" value="Data de Nascimento:" />
+									<p:calendar id="dtNascimento"
+										value="#{perfilControle.tbPessoa.dtNascimento}" effect="fold"
+										required="true" requiredMessage="Informe a data nascimento.">
+									</p:calendar>
+
+									<p:outputLabel value="Sexo: " for="sexoCadastro" />
+									<p:selectOneMenu id="sexoCadastro"
+										requiredMessage="Informe o sexo." required="true"
+										value="#{perfilControle.tbPessoa.flSexo}">
+										<f:selectItem itemLabel="Selecione" itemValue="" />
+										<f:selectItem itemLabel="Masculino" itemValue="M" />
+										<f:selectItem itemLabel="Feminino" itemValue="F" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Nova/atual senha:" for="senha" />
+									<p:password feedback="true" weakLabel="ruim" goodLabel="bom"
+										strongLabel="ótima" promptLabel="Informe uma senha!"
+										id="senha" value="#{perfilControle.tbUsuario.matSenha}"
+										requiredMessage="Informe sua senha/nova para alterar."
+										required="true" />
+
+								</p:panelGrid>
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<p:panelGrid id="pnlPessoaDialog2" columns="2" layout="grid"
+									styleClass="ui-panelgrid-blank">
+
+									<p:outputLabel value="Telefone 1:" for="telefone1" />
+									<p:inputMask mask="(99)9 9999-9999" id="telefone1"
+										value="#{perfilControle.tbContato.tele1}"
+										requiredMessage="Informe o telefone" required="true" />
+
+									<p:outputLabel value="Telefone 2:" for="telefone2" />
+									<p:inputMask mask="(99)9 9999-9999" id="telefone2"
+										value="#{perfilControle.tbContato.tele2}" />
+
+									<p:outputLabel value="E-mail:" for="email" />
+									<p:inputText id="email"
+										value="#{perfilControle.tbContato.email}"
+										requiredMessage="Informe o e-mail." required="true" />
+
+									<p:outputLabel value="CEP:" for="cep" />
+									<p:inputMask id="cep" mask="99999-999"
+										value="#{perfilControle.tbEndereco.cep}"
+										requiredMessage="Informe o cep." required="true" />
+
+									<p:outputLabel value="Logradouro:" for="logradouro" />
+									<p:inputText id="logradouro"
+										value="#{perfilControle.tbEndereco.logradouro}"
+										requiredMessage="Informe um logradouro."
+										validatorMessage="Informe um logradouro de 30 a 120 caracteres."
+										required="true" />
+
+									<p:outputLabel value="Número:" for="numero" />
+									<p:inputText id="numero"
+										value="#{perfilControle.tbEndereco.numero}"
+										requiredMessage="Informe um número." required="true"
+										onkeyup="Mascara(this,Num)" onkeypress="Mascara(this,Num)" />
+
+									<p:outputLabel value="Complemento" for="complemento" />
+									<p:inputText id="complemento"
+										value="#{perfilControle.tbEndereco.complemento}" />
+
+									<p:outputLabel value="Estado:" for="estado" />
+									<p:selectOneMenu value="#{perfilControle.tbEstado}" id="estado"
+										converter="#{perfilControle.converterEstado}" required="true">
+										<f:selectItem itemLabel="Selecione estado"
+											noSelectionOption="true" />
+										<f:selectItems value="#{perfilControle.listEstado()}"
+											var="estado" itemValue="#{estado}"
+											itemLabel="#{estado.estado.toLowerCase()}" />
+										<p:ajax update="cidade"
+											listener="#{perfilControle.EstadoSelecionadoCidade()}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Cidade:" for="cidade" />
+									<p:selectOneMenu value="#{perfilControle.tbCidade}"
+										converter="#{perfilControle.converterCidade}" id="cidade"
+										required="true">
+										<f:selectItem itemLabel="Selecione a cidade" />
+										<f:selectItems value="#{perfilControle.listaCidades}" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+							</div>
+						</div>
+
+						<f:facet name="footer">
+							<p:commandButton id="salvar-button" value="Salvar"
+								process="pessoaDialog"
+								action="#{perfilControle.alterarDadosPerfil()}"
+								oncomplete="if (!args.validationFailed &amp;&amp; args.validacaoMat) PF('edicaoPessoaDialog').hide()"
+								update="msgPessoaDialog pnlPessoaDialog1 pnlPessoaDialog2" />
+							<p:commandButton id="voltar" value="Voltar"
+								oncomplete="PF('edicaoPessoaDialog').hide()" />
+						</f:facet>
+					</p:dialog>
+				</div>
+			</div>
+			<div class="ui-g">
+				<div class="ui-g-12 ui-md-2">
+					<p:dialog header="Nova foto" widgetVar="edicaoFotoDialog"
+						id="fotoDialog" class="fotoDialog" resizable="true"
+						draggable="true" responsive="true" closeOnEscape="true"
+						fitViewport="true" modal="true" showHeader="true">
+
+						<h:form id="fotoUpload">
+							<p:growl id="msgFotoDialog" showDetail="true" />
+							<p:panelGrid id="pnlFotoDialog" columns="1" layout="grid">
+								<p:fileUpload
+									fileUploadListener="#{perfilControle.uploadAction}"
+									mode="advanced" dragDropSupport="true" sizeLimit="100000"
+									auto="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+									fileLimit="1" fileLimitMessage="Só uma foto"
+									uploadLabel="Enviar foto" cancelLabel="Cancelar"
+									label="add foto" update="pnlFotoDialog form:fotoUpload"
+									process="form:fotoDialog"
+									oncomplete="if (!args.validationFailed) PF('edicaoFotoDialog').hide()" />
+							</p:panelGrid>
+
+						</h:form>
+					</p:dialog>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

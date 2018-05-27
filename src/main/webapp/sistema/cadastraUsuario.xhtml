@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+
+		<h1 class="aw-page-title">Cadastro de usuário</h1>
+
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
+					<p:commandButton value="Nova Pessoa" icon="ui-icon-document"
+						action="#{pessoaControle.novo()}" update="pessoaDialog"
+						process="@this" oncomplete="PF('edicaoPessoaDialog').show()">
+						<p:resetInput target="pessoaDialog" />
+					</p:commandButton>
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						update="pessoaDialog" process="@this"
+						oncomplete="PF('edicaoPessoaDialog').show()"
+						actionListener="#{pessoaControle.editarPessoa()}"
+						disabled="#{pessoaControle.tbPessoaSelecionada == null}">
+						<p:resetInput target="pessoaDialog" />
+						<f:setPropertyActionListener
+							value="#{pessoaControle.tbPessoaSelecionada}"
+							target="#{pessoaControle.tbPessoa}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						process="@this" onclick="PF('confirmation').show()"
+						update="pessoaDialog"
+						disabled="#{pessoaControle.tbPessoaSelecionada == null}">
+					</p:commandButton>
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandButton icon=" ui-icon-circle-zoomin" process="@this"
+						update="pessoa-table msgs toolbar" title="Pesquisar"
+						action="#{pessoaControle.pesquisarNome()}">
+						<p:inputText value="#{pessoaControle.pesquisar}"
+							placeholder="nome"></p:inputText>
+					</p:commandButton>
+
+				</f:facet>
+			</p:toolbar>
+
+			<p:dataTable id="pessoa-table" style="margin-top: 10px;" 
+				emptyMessage="Nenhuma pessoa cadastrada."
+				value="#{pessoaControle.pessoa}" var="pessoa" rows="10"
+				paginator="true" paginatorPosition="bottom"
+				selection="#{pessoaControle.tbPessoaSelecionada}"
+				selectionMode="single" rowKey="#{pessoa.idPessoa}"
+				clientCache="false">
+
+				<p:ajax event="rowSelect" update="form:toolbar" />
+				<p:ajax event="rowUnselect" update="form:toolbar" />
+
+				<p:column headerText="id">
+					<h:outputText value="#{pessoa.idPessoa}" />
+				</p:column>
+				<p:column headerText="nome">
+					<h:outputText value="#{pessoa.nmPessoa}" />
+				</p:column>
+
+				<p:column headerText="data nascimento" style="text-align:center">
+					<h:outputText value="#{pessoa.dtNascimento}" />
+				</p:column>
+				<p:column headerText="Turma" style="text-align:center">
+					<h:outputText value="#{pessoa.tbTurma.nome}" />
+				</p:column>
+
+				<p:column headerText="Tipo" style="text-align:center">
+					<h:outputText value="#{pessoa.tipo.tipo}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog message="Deseja deleta?" header="Confirmation"
+				severity="alert" widgetVar="confirmation" id="idConfirma">
+				<p:commandButton value="Sim" update="form"
+					oncomplete="PF('confirmation').hide()"
+					actionListener="#{pessoaControle.excluir()}" process="idConfirma" />
+				<p:commandButton value="Não" onclick="PF('confirmation').hide()"
+					type="button" process="idConfirma" update="pessoa-table form" />
+			</p:confirmDialog>
+					<p:dialog header="Nova/Alterar Pessoa"
+						widgetVar="edicaoPessoaDialog" id="pessoaDialog" resizable="false"
+						draggable="false" responsive="true" closeOnEscape="true"
+						fitViewport="true" width="1000" modal="true" showHeader="true">
+
+						<p:growl id="msgPessoaDialog" showDetail="true" showSummary="true" />
+
+						<p:defaultCommand target="salvar-button" scope="pessoaDialog" />
+
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6">
+								<p:panelGrid id="pnlPessoaDialog1" columns="2" layout="grid"
+									styleClass="ui-panelgrid-blank">
+									<p:outputLabel value="Nome:" for="nome" />
+									<p:inputText id="nome"
+										value="#{pessoaControle.tbPessoa.nmPessoa}" required="true"
+										requiredMessage="Campo nome é obrigatório."
+										validatorMessage="Informe o seu nome de 20 a 120 caracteres." />
+
+									<p:outputLabel value="CPF Opcional:" for="cpf" />
+									<p:inputMask id="cpf" mask="999.999.999-99"
+										value="#{pessoaControle.tbPessoa.cpf}" />
+
+									<p:outputLabel value="Sexo: " for="sexoCadastro" />
+									<p:selectOneMenu id="sexoCadastro"
+										requiredMessage="Informe o sexo." required="true"
+										value="#{pessoaControle.tbPessoa.flSexo}">
+										<f:selectItem itemLabel="Selecione" itemValue="" />
+										<f:selectItem itemLabel="Masculino" itemValue="M" />
+										<f:selectItem itemLabel="Feminino" itemValue="F" />
+									</p:selectOneMenu>
+
+									<p:outputLabel for="dtNascimento:" value="Data de Nascimento:" />
+									<p:calendar id="dtNascimento"
+										value="#{pessoaControle.tbPessoa.dtNascimento}" effect="fold"
+										required="true" requiredMessage="Informe a data nascimento.">
+									</p:calendar>
+
+									<p:outputLabel value="Turma:" for="turma" />
+									<p:selectOneMenu value="#{pessoaControle.tbPessoa.tbTurma}"
+										id="turma" required="true"
+										converter="#{pessoaControle.converterTurma}"
+										requiredMessage="Turma é obrigatório.">
+										<f:selectItem itemLabel="Selecione uma turma"
+											noSelectionOption="true" />
+										<f:selectItems value="#{pessoaControle.listTurma()}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Login(matrícula):" for="login" />
+									<p:inputText id="login"
+										value="#{pessoaControle.tbUsuario.matLogin}"
+										requiredMessage="Informe o login"
+										validatorMessage="Informe o seu login de 5 a 20 caracteres."
+										required="true" disabled="true" />
+
+									<p:outputLabel value="Senha:" for="senha" />
+									<p:password feedback="true" weakLabel="ruim" goodLabel="bom"
+										strongLabel="ótima" promptLabel="Informe uma senha!"
+										id="senha" value="#{pessoaControle.tbUsuario.matSenha}"
+										requiredMessage="Informe sua senha." required="true" />
+
+									<p:outputLabel value="Tipo: " for="tipo" />
+									<p:selectOneMenu id="tipo" requiredMessage="Informe o tipo."
+										required="true" value="#{pessoaControle.tbPessoa.tipo}">
+										<f:selectItem itemLabel="Selecione" itemValue="" />
+										<f:selectItem itemLabel="Administrador" itemValue="ADM" />
+										<f:selectItem itemLabel="Estudante" itemValue="EST" />
+										<f:selectItem itemLabel="Professor" itemValue="PF" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<p:panelGrid id="pnlPessoaDialog2" columns="2" layout="grid"
+									styleClass="ui-panelgrid-blank">
+
+									<p:outputLabel value="Telefone 1:" for="telefone1" />
+									<p:inputMask mask="(99)9 9999-9999" id="telefone1"
+										value="#{pessoaControle.tbContato.tele1}"
+										requiredMessage="Informe o telefone" required="true" />
+
+									<p:outputLabel value="Telefone 2:" for="telefone2" />
+									<p:inputMask mask="(99)9 9999-9999" id="telefone2"
+										value="#{pessoaControle.tbContato.tele2}" />
+
+									<p:outputLabel value="E-mail:" for="email" />
+									<p:inputText id="email"
+										value="#{pessoaControle.tbContato.email}"
+										requiredMessage="Informe o e-mail." required="true" />
+
+									<p:outputLabel value="Logradouro:" for="logradouro" />
+									<p:inputText id="logradouro"
+										value="#{pessoaControle.tbEndereco.logradouro}"
+										requiredMessage="Informe um logradouro."
+										validatorMessage="Informe um logradouro de 30 a 120 caracteres."
+										required="true" />
+
+									<p:outputLabel value="Complemento" for="complemento" />
+									<p:inputText id="complemento"
+										value="#{pessoaControle.tbEndereco.complemento}" />
+
+									<p:outputLabel value="CEP:" for="cep" />
+									<p:inputMask id="cep" mask="99999-999"
+										value="#{pessoaControle.tbEndereco.cep}"
+										requiredMessage="Informe o cep." required="true" />
+
+									<p:outputLabel value="Número:" for="numero" />
+									<p:inputText id="numero"
+										value="#{pessoaControle.tbEndereco.numero}"
+										requiredMessage="Informe um número." required="true"
+										onkeyup="Mascara(this,Num)" onkeypress="Mascara(this,Num)" />
+
+									<p:outputLabel value="Estado:" for="estado" />
+									<p:selectOneMenu value="#{pessoaControle.tbEstado}" id="estado"
+										converter="#{pessoaControle.converterEstado}" required="true">
+										<f:selectItem itemLabel="Selecione estado"
+											noSelectionOption="true" />
+										<f:selectItems value="#{pessoaControle.listEstado()}"
+											var="estado" itemValue="#{estado}"
+											itemLabel="#{estado.estado.toLowerCase()}" />
+										<p:ajax update="cidade"
+											listener="#{pessoaControle.EstadoSelecionadoCidade()}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Cidade:" for="cidade" />
+									<p:selectOneMenu value="#{pessoaControle.tbCidade}"
+										converter="#{pessoaControle.converterCidade}" id="cidade"
+										required="true">
+										<f:selectItem itemLabel="Selecione a cidade" />
+										<f:selectItems value="#{pessoaControle.listaCidades}" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+							</div>
+						</div>
+						<f:facet name="footer">
+							<p:commandButton id="salvar-button" value="Salvar"
+								action="#{pessoaControle.salvar()}" process="pessoaDialog"
+								oncomplete="if (!args.validationFailed &amp;&amp; args.validacaoMat) PF('edicaoPessoaDialog').hide()"
+								update="msgPessoaDialog pnlPessoaDialog1 pnlPessoaDialog2" />
+							<p:commandButton id="voltar" value="Voltar"
+								oncomplete="PF('edicaoPessoaDialog').hide()" />
+						</f:facet>
+					</p:dialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

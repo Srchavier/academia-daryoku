@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+		<h1 class="aw-page-title">Cadastro de Evento</h1>
+
+		<h:form>
+			<p:growl id="messages" showDetail="true" />
+			<h:panelGrid columnClasses="value">
+				<p:commandButton value="Adicionar um evento"
+					action="#{scheduleView.prepararEvento()}" process="@this"
+					oncomplete="PF('eventDialog').show()" update="dlgDetalhes" />
+
+				<p:schedule id="schedule" value="#{scheduleView.eventModel}"
+					widgetVar="myschedule"  timeZone="GMT-3" draggable="false">
+					<!-- 					<p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" -->
+					<!-- 						update="eventDetails" oncomplete="PF('eventDialog').show();" /> -->
+					<p:ajax event="eventSelect"
+						listener="#{scheduleView.onEventSelect}" update="eventDetails"
+						oncomplete="PF('eventDialog').show();" />
+
+				</p:schedule>
+			</h:panelGrid>
+
+			<p:dialog id="dlgDetalhes" widgetVar="eventDialog"
+				header="Marcaçao de eventos" showEffect="clip" hideEffect="clip" >
+
+				<h:panelGrid id="eventDetails" columns="2">
+					<p:outputLabel for="title" value="Nome do evento:" />
+					<p:inputText id="title" value="#{scheduleView.event.title}"
+						required="true" requiredMessage="nome é obrigatório." size="45">
+						<f:validateLength minimum="5" maximum="45" />
+					</p:inputText>
+
+					<p:outputLabel for="subTitulo" value="Subtítulo" />
+					<p:inputText id="subTitulo" value="#{scheduleView.event.subTitulo}"
+						required="true" requiredMessage="nome é obrigatório." size="45">
+						<f:validateLength minimum="5" maximum="45" />
+					</p:inputText>
+
+					<p:outputLabel value="Turma:" />
+					<p:selectCheckboxMenu id="multiple"
+						value="#{scheduleView.event.tbTurma}" multiple="true"
+						converter="#{scheduleView.converterTurma}" filter="false"
+						filterMatchMode="startsWith" required="true"
+						requiredMessage="turma é obrigatório.">
+						<f:attribute name="collectionType" value="java.util.ArrayList" />	
+						<f:selectItems value="#{scheduleView.listarTurma()}" var="turma"
+							itemValue="#{turma}" itemLabel="#{turma.nome}" />
+					</p:selectCheckboxMenu>
+
+					<p:outputLabel for="from" value="Início do evento" />
+					<p:calendar id="from" value="#{scheduleView.event.startDate}"
+						required="true" requiredMessage="data inicio é obrigatório."
+						timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" />
+
+					<p:outputLabel for="to" value="Fim do evento" />
+					<p:calendar id="to" value="#{scheduleView.event.endDate}"
+						timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" required="true"
+						requiredMessage="data fim  é obrigatório." />
+
+					<p:outputLabel for="descricao" value="Descricão do evento:" />
+					<p:textEditor widgetVar="descricao" id="descricao"
+						value="#{scheduleView.event.description}" height="70"
+						style="margin-bottom:10px">
+						<f:validateLength minimum="5" maximum="800" />
+					</p:textEditor>
+
+					<p:commandButton id="addButton" value="Adicionar/Alterar evento"
+						actionListener="#{scheduleView.addEvent}"
+						oncomplete="if (!args.validationFailed &amp;&amp; args.validacaoMat)PF('myschedule').update();PF('eventDialog').hide();"
+						update="messages" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+		<br />
+		<h:outputScript library="js" name="calendarScript.js" />
+		<h:outputStylesheet library="css" name="calendar.css" />
+	</ui:define>
+
+</ui:composition>

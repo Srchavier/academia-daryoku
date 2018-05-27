@@ -1,0 +1,11 @@
+@charset "ISO-8859-1";
+
+.ui-fileupload-row>div {
+    /* display: table-cell; */
+    padding: 4px 10px;
+}
+
+.fotoDialog>a {
+    color: red;
+    text-decoration: none;
+}
