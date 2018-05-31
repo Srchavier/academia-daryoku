@@ -4,13 +4,138 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/Layout.xhtml">
-	
-	<head>
 
+	<head>
 	</head>
-	
+
 	<ui:define name="content">
-		<h1 class="aw-page-title">Cadastro de Turma</h1>
+		<h:outputStylesheet library="css" name="cssPagina.css" />
+		<h1 class="aw-page-title" id="cabecalho">Turma</h1>
+		<h:form id="form">
+			<div class="ui-fluid">
+				<p:tabView style="margin-top: 20px">
+					<p:tab title="Cadastro de turma">
+						<p:panelGrid columns="6" layout="grid"
+							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2"
+							styleClass="panelgrid-noborder">
+
+
+							<p:outputLabel for="input" value="Nome:" />
+							<p:inputText id="input" />
+
+							<p:outputLabel for="DataInicio" value="Início da turma:" />
+							<p:calendar id="DataInicio" required="true"
+								requiredMessage="data ínicio é obrigatório." timeZone="GMT-3"
+								pattern="dd/MM/yyyy HH:mm" />
+
+							<p:outputLabel for="DataFim" value="Fim da turma:" />
+							<p:calendar id="DataFim" required="true"
+								requiredMessage="data Fim é obrigatório." timeZone="GMT-3"
+								pattern="dd/MM/yyyy HH:mm" />
+
+							<p:outputLabel for="semana" value="Dia da semana de aula:" />
+							<p:selectManyCheckbox id="semana" layout="grid" columns="3"
+								multiple="true">
+								<f:selectItems var="item" itemLabel="#{item.tipo}"
+									itemValue="#{item}" value="#{pessoaControle.listaFaixas()}" />
+							</p:selectManyCheckbox>
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</div>
+
+
+			<p:tabView id="lista" style="margin-top: 20px">
+				<p:tab title="Lista de turma">
+
+					<p:growl id="msgs" showDetail="true" />
+
+					<p:toolbar id="toolbar">
+						<f:facet name="left">
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								update="turmaDialog" process="@this"
+								oncomplete="PF('edicaoTurmaDialog').show()"
+								actionListener="#{turmaControle.editarTurma()}"
+								disabled="#{turmaControle.turmaSelecionada.toString() == null}">
+								<p:resetInput target="turmaDialog" />
+								<f:setPropertyActionListener
+									value="#{turmaControle.turmaSelecionada}"
+									target="#{turmaControle.tbTurma}" />
+							</p:commandButton>
+						</f:facet>
+					</p:toolbar>
+
+					<p:dataTable id="turma-table" style="margin-top: 10px;"
+						emptyMessage="Nenhuma turma cadastrada."
+						value="#{turmaControle.turmas}" var="turma" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						selection="#{turmaControle.turmaSelecionada}"
+						selectionMode="single" rowKey="#{turma.idTurma}" reflow="true">
+
+						<p:ajax event="rowSelect" update="form:lista:toolbar" />
+						<p:ajax event="rowUnselect" update="form:lista:toolbar" />
+
+						<p:column headerText="id">
+							<h:outputText value="#{turma.idTurma}" />
+						</p:column>
+						<p:column headerText="nome">
+							<h:outputText value="#{turma.nome}" />
+						</p:column>
+
+						<p:column headerText="data nascimento">
+							<h:outputText value="#{turma.dtInicio}" />
+						</p:column>
+
+						<p:column headerText="data nascimento">
+							<h:outputText value="#{turma.dtFim}" />
+						</p:column>
+					</p:dataTable>
+
+					<p:dialog header="alterar turma" widgetVar="edicaoTurmaDialog"
+						id="turmaDialog" resizable="false" draggable="false"
+						responsive="true" closeOnEscape="true" fitViewport="true"
+						width="500" modal="true" showHeader="true">
+
+						<p:growl id="msgTurmaDialog" showDetail="true" showSummary="true" />
+
+						<p:defaultCommand target="salvar-button" scope="turmaDialog" />
+
+						<p:panelGrid id="pnlPessoaDialog1" columns="2" layout="grid"
+							styleClass="ui-panelgrid-blank">
+							<p:outputLabel value="Nome:" for="nome" />
+							<p:inputText id="nome"
+								value="#{turmaControle.tbTurma.nome}" required="true"
+								requiredMessage="Campo nome é obrigatório."
+								validatorMessage="Informe o seu nome de 15 a 120 caracteres." />
+								
+							<p:outputLabel for="dtInicio" value="Data de início:" />
+							<p:calendar id="dtInicio"
+								value="#{turmaControle.tbTurma.dtInicio}" effect="fold"
+								required="true" requiredMessage="Informe a data início.">
+							</p:calendar>
+							<p:outputLabel for="dtFim" value="Data de Nascimento:" />
+							<p:calendar id="dtFim"
+								value="#{turmaControle.tbTurma.dtFim}" effect="fold"
+								required="true" requiredMessage="Informe a data fim.">
+							</p:calendar>
+
+							<f:facet name="footer">
+								<p:commandButton id="salvar-button" value="Salvar"
+									action="#{turmaControle.salvarTurma()}" process="turmaDialog"
+									oncomplete="if (!args.validationFailed &amp;&amp; args.validacaoForm) PF('edicaoTurmaDialog').hide()"
+									update="msgTurmaDialog " />
+								<p:commandButton id="voltar" value="Voltar"
+									oncomplete="PF('edicaoTurmaDialog').hide()" />
+							</f:facet>
+						</p:panelGrid>
+					</p:dialog>
+
+				</p:tab>
+			</p:tabView>
+		</h:form>
 	</ui:define>
-	
+
+
+
+
 </ui:composition>

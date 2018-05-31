@@ -62,6 +62,9 @@ public class TbPessoa implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private TipoEnum tipo;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoFaixa tipoFaixa;
 
 	@NotNull(message = "Informe uma Turma!")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -141,6 +144,14 @@ public class TbPessoa implements Serializable {
 
 	public void setTipo(TipoEnum tipo) {
 		this.tipo = tipo;
+	}
+
+	public TipoFaixa getTipoFaixa() {
+		return tipoFaixa;
+	}
+
+	public void setTipoFaixa(TipoFaixa tipoFaixa) {
+		this.tipoFaixa = tipoFaixa;
 	}
 
 	@Override

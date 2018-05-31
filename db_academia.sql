@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_estado` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_cidade`
 -- -----------------------------------------------------
@@ -31,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_cidade` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_turma`
@@ -55,7 +53,6 @@ DEFAULT CHARACTER SET = utf8;
     REFERENCES `db_academia`.`tb_pessoa` (`id_pessoa`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)*/
-
 
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_pessoa`
@@ -81,7 +78,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_contato`
 -- -----------------------------------------------------
@@ -102,7 +98,6 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_contato` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_endereco`
@@ -132,7 +127,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
-
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_evento`
 -- -----------------------------------------------------
@@ -147,7 +141,6 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_evento` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_evento_has_tb_turma`
@@ -171,7 +164,6 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_evento_has_tb_turma` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
 -- -----------------------------------------------------
 -- Table `db_academia`.`tb_usuario`
 -- -----------------------------------------------------
@@ -192,7 +184,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 35
 DEFAULT CHARACTER SET = utf8;
 
-
 ALTER TABLE `db_academia`.`tb_turma` 
 ADD INDEX `fk_tb_turma_tb_pessoa1_idx` (`tb_pessoa_id_pessoa` ASC);
  
@@ -205,4 +196,65 @@ ALTER TABLE `db_academia`.`tb_turma`
     
 ALTER TABLE `db_academia`.`tb_pessoa` 
 	CHANGE COLUMN `foto` `foto` VARCHAR(50) NULL DEFAULT NULL COMMENT 'foto' ;
+	
+CREATE TABLE IF NOT EXISTS `db_academia`.`tb_diasSemana` (
+  `id_diasSemana` SMALLINT(5) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_diasSemana`),
+ dom TINYINT NULL DEFAULT 0,
+  seg TINYINT NULL DEFAULT 0,
+  ter TINYINT NULL DEFAULT 0,
+  qua TINYINT NULL DEFAULT 0,
+  qui TINYINT NULL DEFAULT 0,
+  sex TINYINT NULL DEFAULT 0,
+  sab TINYINT NULL DEFAULT 0)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+ALTER TABLE `db_academia`.`tb_turma` 
+ADD COLUMN `id_diasSemana` SMALLINT(5) NOT NULL AFTER `tb_pessoa_id_pessoa`,
+ADD INDEX `fk_tb_turma_tb_diassemana1_idx` (`id_diasSemana` ASC);
+;
+
+ALTER TABLE `db_academia`.`tb_turma` 
+ADD CONSTRAINT `fk_tb_turma_tb_diassemana1`
+  FOREIGN KEY (`id_diasSemana`)
+  REFERENCES `db_academia`.`tb_diassemana` (`id_diasSemana`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+    
+CREATE TABLE IF NOT EXISTS `db_academia`.`tb_aula` ( id_aula INT UNSIGNED NOT NULL AUTO_INCREMENT,
+          dt_aula DATE NOT NULL,
+          hr_inicio TIME NOT NULL,
+          hr_fim TIME NOT NULL,
+          PRIMARY KEY (id_aula)
+        )
+        ENGINE = InnoDB
+        DEFAULT CHARACTER SET = utf8 
+            
+ALTER TABLE `db_academia`.`tb_aula` 
+ADD COLUMN `tb_turma_id_turma` INT(11) NOT NULL AFTER `hr_fim`,
+ADD INDEX `fk_tb_aula_tb_turma1_idx` (`tb_turma_id_turma` ASC);
+;
+
+ALTER TABLE `db_academia`.`tb_aula` 
+ADD CONSTRAINT `fk_tb_aula_tb_turma1`
+  FOREIGN KEY (`tb_turma_id_turma`)
+  REFERENCES `db_academia`.`tb_turma` (`id_turma`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;        
+  
+ALTER TABLE `db_academia`.`tb_aula` 
+DROP FOREIGN KEY `fk_tb_aula_tb_turma1`;
+
+ALTER TABLE `db_academia`.`tb_aula` 
+CHANGE COLUMN `tb_turma_id_turma` `id_turma` INT(11) NOT NULL ,
+ADD INDEX `fk_tb_aula_tb_turma1_idx` (`id_turma` ASC),
+DROP INDEX `fk_tb_aula_tb_turma1_idx` ;
+;
+
+ALTER TABLE `db_academia`.`tb_aula` 
+ADD CONSTRAINT `fk_tb_aula_tb_turma1`
+  FOREIGN KEY (`id_turma`)
+  REFERENCES `db_academia`.`tb_turma` (`id_turma`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;  
 

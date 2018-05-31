@@ -6,27 +6,32 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-		<div class="sidenav">
-			<div>
-				<p>
-					<i class="fa fa-user-circle-o fa-4x" aria-hidden="true"></i>
-				</p>
-			</div>
-			<hr class="menuhr" style="border-style: none;" />
-
-			<a class="list-group-item" href="Perfil.xhtml"> <i
-				class="fa fa-book fa-fw" aria-hidden="true"></i> Informações
-				Pessoais
-			</a> <a class="list-group-item" href="evento.xhtml"> <i
-				class="fa fa-pencil fa-fw" aria-hidden="true"></i> Eventos
-			</a> <a class="list-group-item" href="controleDePresenca.xhtml"> <i
-				class="fa fa-cog fa-fw" aria-hidden="true"></i>Controle de Presença
-			</a> <a class="list-group-item" href="cadastraEvento.xhtml"> <i
-				class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar evento
-			</a> <a class="list-group-item" href="cadastraUsuario.xhtml"> <i
-				class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar usuário
-			</a><a class="list-group-item" href="cadastraTurma.xhtml"> <i
-				class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar turma
-			</a>
+<div class="sidenav">
+	<div>
+		<p>
+			<i class="fa fa-user-circle-o fa-4x" aria-hidden="true"></i>
+		</p>
+		<div>
+			<p:outputLabel>#{perfilControle.tbUsuario.matLogin}</p:outputLabel>
 		</div>
+		<div>
+			<p:outputLabel>#{perfilControle.tbPessoa.tipoFaixa.tipo}</p:outputLabel>
+		</div>
+	</div>
+	<hr class="menuhr" style="border-style: none;" />
+
+	<a class="list-group-item" href="Perfil.xhtml"> <i
+		class="fa fa-book fa-fw" aria-hidden="true"></i> Informações Pessoais
+	</a> <a class="list-group-item" href="evento.xhtml"> <i
+		class="fa fa-pencil fa-fw" aria-hidden="true"></i> Eventos
+	</a> <a class="list-group-item" href="controleDePresenca.xhtml"> <i
+		class="fa fa-cog fa-fw" aria-hidden="true"></i>Controle de Presença
+	</a> <a class="list-group-item" href="cadastraEvento.xhtml"> <i
+		class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar evento
+	</a> <a class="list-group-item" href="cadastraUsuario.xhtml"> <i
+		class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar usuário
+	</a><a class="list-group-item" href="cadastraTurma.xhtml"> <i
+		class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar turma
+	</a>
+</div>
 </html>

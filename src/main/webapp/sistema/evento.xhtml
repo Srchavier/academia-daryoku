@@ -5,8 +5,10 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/Layout.xhtml">
 
+	
 	<ui:define name="content">
-		<h1 class="aw-page-title">Eventos</h1>
+	<h:outputStylesheet library="css" name="cssPagina.css" />
+		<h1 class="aw-page-title" id="cabecalho">Eventos</h1>
 		<h:form id="form">
 			<p:repeat var="list" value="#{scheduleView.repeatPaginator.model}">
 				<div class="card-block well">
@@ -27,8 +29,7 @@
 									<li class="list-group-item"><h:outputText
 											value="#{list.descricao}" escape="false" /></li>
 								</ul>
-								<br/>
-								<span class="badge" title="data-início"><h:outputLabel
+								<br /> <span class="badge" title="data-início"><h:outputLabel
 										value="#{list.dateInicil}">
 
 										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>
@@ -48,7 +49,8 @@
 				<h:outputText
 					value="#{scheduleView.repeatPaginator.pageIndex} / #{scheduleView.repeatPaginator.pages}" />
 				<h:commandButton value="próxima &gt;"
-					action="#{scheduleView.repeatPaginator.next}" disabled="#{scheduleView.repeatPaginator.pages == scheduleView.repeatPaginator.pageIndex}" />
+					action="#{scheduleView.repeatPaginator.next}"
+					disabled="#{scheduleView.repeatPaginator.pages == scheduleView.repeatPaginator.pageIndex}" />
 				<h:inputHidden value="#{scheduleView.repeatPaginator.pageIndex}" />
 			</center>
 			<br />

@@ -6,9 +6,9 @@
 	template="/WEB-INF/templates/Layout.xhtml">
 
 	<ui:define name="content">
-		<h1 class="aw-page-title">Cadastro de Evento</h1>
-
-		<h:form>
+	<h:outputStylesheet library="css" name="cssPagina.css" />
+		<h1 class="aw-page-title" id="cabecalho">Cadastro de Evento</h1>
+		<h:form id="form">
 			<p:growl id="messages" showDetail="true" />
 			<h:panelGrid columnClasses="value">
 				<p:commandButton value="Adicionar um evento"
@@ -16,7 +16,7 @@
 					oncomplete="PF('eventDialog').show()" update="dlgDetalhes" />
 
 				<p:schedule id="schedule" value="#{scheduleView.eventModel}"
-					widgetVar="myschedule"  timeZone="GMT-3" draggable="false">
+					widgetVar="myschedule" timeZone="GMT-3" draggable="false">
 					<!-- 					<p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" -->
 					<!-- 						update="eventDetails" oncomplete="PF('eventDialog').show();" /> -->
 					<p:ajax event="eventSelect"
@@ -27,7 +27,7 @@
 			</h:panelGrid>
 
 			<p:dialog id="dlgDetalhes" widgetVar="eventDialog"
-				header="Marcaçao de eventos" showEffect="clip" hideEffect="clip" >
+				header="Marcaçao de eventos" showEffect="clip" hideEffect="clip">
 
 				<h:panelGrid id="eventDetails" columns="2">
 					<p:outputLabel for="title" value="Nome do evento:" />
@@ -48,7 +48,7 @@
 						converter="#{scheduleView.converterTurma}" filter="false"
 						filterMatchMode="startsWith" required="true"
 						requiredMessage="turma é obrigatório.">
-						<f:attribute name="collectionType" value="java.util.ArrayList" />	
+						<f:attribute name="collectionType" value="java.util.ArrayList" />
 						<f:selectItems value="#{scheduleView.listarTurma()}" var="turma"
 							itemValue="#{turma}" itemLabel="#{turma.nome}" />
 					</p:selectCheckboxMenu>

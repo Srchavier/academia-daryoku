@@ -39,7 +39,7 @@
 										<tbody>
 											<tr>
 												<td>Nome:</td>
-												<td><p:outputLabel>#{perfilControle.tbPessoa.nmPessoa}</p:outputLabel></td>
+												<td><p:outputLabel>#{perfilControle.tbPessoa.nmPessoa.toUpperCase()}</p:outputLabel></td>
 											</tr>
 											<tr>
 												<td>Data de nascimento:</td>
@@ -52,7 +52,10 @@
 												<td>Sexo:</td>
 												<td><p:outputLabel>#{perfilControle.tbPessoa.flSexo.descricao}</p:outputLabel></td>
 											</tr>
-
+											<tr>
+												<td>Cor da  faixa:</td>
+												<td><p:outputLabel>#{perfilControle.tbPessoa.tipoFaixa.tipo}</p:outputLabel></td>
+											</tr>
 											<tr>
 												<td>Matrícula:</td>
 												<td><p:outputLabel>#{perfilControle.tbUsuario.matLogin}</p:outputLabel></td>

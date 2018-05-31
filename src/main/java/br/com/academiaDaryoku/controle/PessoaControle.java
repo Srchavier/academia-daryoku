@@ -16,6 +16,8 @@ import javax.persistence.NoResultException;
 
 import org.primefaces.PrimeFaces;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+
 import br.com.academiaDaryoku.converter.ConverterCidade;
 import br.com.academiaDaryoku.converter.ConverterEstado;
 import br.com.academiaDaryoku.converter.ConverterTurma;
@@ -27,6 +29,7 @@ import br.com.academiaDaryoku.model.TbPessoa;
 import br.com.academiaDaryoku.model.TbTurma;
 import br.com.academiaDaryoku.model.TbUsuario;
 import br.com.academiaDaryoku.model.TipoEnum;
+import br.com.academiaDaryoku.model.TipoFaixa;
 import br.com.academiaDaryoku.respository.filter.FilterAll;
 import br.com.academiaDaryoku.service.CidadeService;
 import br.com.academiaDaryoku.service.ContatoService;
@@ -290,6 +293,10 @@ public class PessoaControle implements Serializable {
 
 	public List<TbEstado> listEstado() {
 		return estadoService.lista();
+	}
+	
+	public List<TipoFaixa> listaFaixas(){
+		return Arrays.asList(TipoFaixa.values());
 	}
 
 	public String gerarMatricula() {

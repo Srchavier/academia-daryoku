@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,6 +62,12 @@ public class TbTurma implements Serializable {
 			@JoinColumn(name = "tb_turma_id_turma") }, inverseJoinColumns = {
 					@JoinColumn(name = "tb_evento_id_Evento") })
 	private List<TbEvento> tbEventos;
+
+	@OneToOne(mappedBy = "tbTurma", fetch = FetchType.LAZY)
+	private TbDiasSemana tbDiassemana;
+
+	@OneToMany(mappedBy = "tbTurma", fetch = FetchType.LAZY)
+	private List<TbAula> tbAulas;
 
 	public TbTurma() {
 	}
@@ -110,6 +118,22 @@ public class TbTurma implements Serializable {
 
 	public void setTbPessoa(TbPessoa tbPessoa) {
 		this.tbPessoa = tbPessoa;
+	}
+
+	public TbDiasSemana getTbDiassemana() {
+		return this.tbDiassemana;
+	}
+
+	public void setTbDiassemana(TbDiasSemana tbDiassemana) {
+		this.tbDiassemana = tbDiassemana;
+	}
+
+	public List<TbAula> getTbAulas() {
+		return tbAulas;
+	}
+
+	public void setTbAulas(List<TbAula> tbAulas) {
+		this.tbAulas = tbAulas;
 	}
 
 	@Override
