@@ -11,40 +11,120 @@
 	<ui:define name="content">
 		<h:outputStylesheet library="css" name="cssPagina.css" />
 		<h1 class="aw-page-title" id="cabecalho">Turma</h1>
-		<h:form id="form">
-			<div class="ui-fluid">
-				<p:tabView style="margin-top: 20px">
-					<p:tab title="Cadastro de turma">
-						<p:panelGrid columns="6" layout="grid"
-							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2"
-							styleClass="panelgrid-noborder">
 
+		<h:form id="idTurma">
+			<p:growl id="msgsTurma" showDetail="true" />
+			<div>
+				<p:panelGrid columns="1" layout="grid">
+					<p:tabView style="margin-top: 20px">
 
-							<p:outputLabel for="input" value="Nome:" />
-							<p:inputText id="input" />
+						<p:tab title="turma">
+							<div class="ui-g">
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-4 ui-g-nopad">
+										<p:outputLabel for="input" value="Nome:" />
+										<p:inputText id="input" value="#{turmaControle.tbTurma.nome}"
+											required="true" requiredMessage="data ínicio é obrigatório." />
+									</div>
+									<div class="ui-g-12 ui-md-4 ui-g-nopad">
+										<p:outputLabel for="DataInicio" value="Início da turma:" />
+										<p:calendar id="DataInicio" required="true"
+											value="#{turmaControle.tbTurma.dtInicio}"
+											requiredMessage="data ínicio é obrigatório." timeZone="GMT-3"
+											pattern="dd/MM/yyyy">
+											<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+										</p:calendar>
+									</div>
+									<div class="ui-g-12 ui-md-4 ui-g-nopad">
+										<p:outputLabel for="DataFim" value="Fim da turma:" />
+										<p:calendar id="DataFim" required="true"
+											value="#{turmaControle.tbTurma.dtFim}"
+											requiredMessage="data Fim é obrigatório." timeZone="GMT-3"
+											pattern="dd/MM/yyyy">
+											<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+										</p:calendar>
+									</div>
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Aula">
+							<div class="ui-g">
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-4 ui-g-nopad">
+										<p:outputLabel for="hrInicio" value="Início da aula:" />
+										<p:calendar id="hrInicio" value="#{turmaControle.hrInicio}"
+											timeOnly="true" pattern="HH:mm" mask="true"
+											showButtonPanel="true" showTodayButton="false"
+											required="true" requiredMessage="Hora de Fim é obrigatório." converter="#{turmaControle.localConverter}">
+										</p:calendar>
 
-							<p:outputLabel for="DataInicio" value="Início da turma:" />
-							<p:calendar id="DataInicio" required="true"
-								requiredMessage="data ínicio é obrigatório." timeZone="GMT-3"
-								pattern="dd/MM/yyyy HH:mm" />
+									</div>
+									<div class="ui-g-12 ui-md-4 ui-g-nopad">
+										<p:outputLabel for="hrFim" value="Fim da aula:" />
+										<p:calendar id="hrFim" value="#{turmaControle.hrFim}"
+											timeOnly="true" pattern="HH:mm" mask="true"
+											showButtonPanel="true" showTodayButton="false"
+											required="true" requiredMessage="Hora de Fim é obrigatório." converter="#{turmaControle.localConverter}">
+										</p:calendar>
+									</div>
+								</div>
 
-							<p:outputLabel for="DataFim" value="Fim da turma:" />
-							<p:calendar id="DataFim" required="true"
-								requiredMessage="data Fim é obrigatório." timeZone="GMT-3"
-								pattern="dd/MM/yyyy HH:mm" />
-
-							<p:outputLabel for="semana" value="Dia da semana de aula:" />
-							<p:selectManyCheckbox id="semana" layout="grid" columns="3"
-								multiple="true">
-								<f:selectItems var="item" itemLabel="#{item.tipo}"
-									itemValue="#{item}" value="#{pessoaControle.listaFaixas()}" />
-							</p:selectManyCheckbox>
-						</p:panelGrid>
-					</p:tab>
-				</p:tabView>
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-1 ui-g-nopad">
+										<p:outputLabel value="Seg: " for="segunda" />
+										<p:selectBooleanCheckbox id="segunda"
+											value="#{turmaControle.tbTurma.tbDiassemana.seg}">
+										</p:selectBooleanCheckbox>
+									</div>
+									<div class="ui-g-12 ui-md-1 ui-g-nopad">
+										<p:outputLabel value="Terça: " for="terca" />
+										<p:selectBooleanCheckbox id="terca"
+											value="#{turmaControle.tbTurma.tbDiassemana.ter}">
+										</p:selectBooleanCheckbox>
+									</div>
+									<div class="ui-g-12 ui-md-1 ui-g-nopad">
+										<p:outputLabel value="Quarta: " for="quarta" />
+										<p:selectBooleanCheckbox id="quarta"
+											value="#{turmaControle.tbTurma.tbDiassemana.qua}">
+										</p:selectBooleanCheckbox>
+									</div>
+									<div class="ui-g-12 ui-md-1 ui-g-nopad">
+										<p:outputLabel value="Quinta: " for="quinta" />
+										<p:selectBooleanCheckbox id="quinta"
+											value="#{turmaControle.tbTurma.tbDiassemana.qui}">
+										</p:selectBooleanCheckbox>
+									</div>
+									<div class="ui-g-12 ui-md-1 ui-g-nopad">
+										<p:outputLabel value="Sexta: " for="sexta" />
+										<p:selectBooleanCheckbox id="sexta"
+											value="#{turmaControle.tbTurma.tbDiassemana.sex}">
+										</p:selectBooleanCheckbox>
+									</div>
+									<div class="ui-g-12 ui-md-1 ui-g-nopad">
+										<p:outputLabel value="Sábado:" for="sabado" />
+										<p:selectBooleanCheckbox id="sabado"
+											value="#{turmaControle.tbTurma.tbDiassemana.sab}">
+										</p:selectBooleanCheckbox>
+									</div>
+									<div class="ui-g-12 ui-md-2 ui-g-nopad">
+										<p:outputLabel value="Domingo:" for="domingo" />
+										<p:selectBooleanCheckbox id="domingo"
+											value="#{turmaControle.tbTurma.tbDiassemana.dom}">
+										</p:selectBooleanCheckbox>
+									</div>
+								</div>
+							</div>
+						</p:tab>
+					</p:tabView>
+					<p:commandButton id="bottomMargin" value="Salvar"
+						action="#{turmaControle.salvaTurma()}"
+						style="margin-top:10px; margin-bottom: 10px;"
+						update="idTurma msgsTurma" />
+				</p:panelGrid>
 			</div>
 
-
+		</h:form>
+		<h:form id="form">
 			<p:tabView id="lista" style="margin-top: 20px">
 				<p:tab title="Lista de turma">
 
@@ -64,7 +144,6 @@
 							</p:commandButton>
 						</f:facet>
 					</p:toolbar>
-
 					<p:dataTable id="turma-table" style="margin-top: 10px;"
 						emptyMessage="Nenhuma turma cadastrada."
 						value="#{turmaControle.turmas}" var="turma" rows="10"
@@ -103,27 +182,26 @@
 						<p:panelGrid id="pnlPessoaDialog1" columns="2" layout="grid"
 							styleClass="ui-panelgrid-blank">
 							<p:outputLabel value="Nome:" for="nome" />
-							<p:inputText id="nome"
-								value="#{turmaControle.tbTurma.nome}" required="true"
-								requiredMessage="Campo nome é obrigatório."
+							<p:inputText id="nome" value="#{turmaControle.tbTurma.nome}"
+								required="true" requiredMessage="Campo nome é obrigatório."
 								validatorMessage="Informe o seu nome de 15 a 120 caracteres." />
-								
+
 							<p:outputLabel for="dtInicio" value="Data de início:" />
 							<p:calendar id="dtInicio"
 								value="#{turmaControle.tbTurma.dtInicio}" effect="fold"
 								required="true" requiredMessage="Informe a data início.">
 							</p:calendar>
 							<p:outputLabel for="dtFim" value="Data de Nascimento:" />
-							<p:calendar id="dtFim"
-								value="#{turmaControle.tbTurma.dtFim}" effect="fold"
-								required="true" requiredMessage="Informe a data fim.">
+							<p:calendar id="dtFim" value="#{turmaControle.tbTurma.dtFim}"
+								effect="fold" required="true"
+								requiredMessage="Informe a data fim.">
 							</p:calendar>
 
 							<f:facet name="footer">
 								<p:commandButton id="salvar-button" value="Salvar"
-									action="#{turmaControle.salvarTurma()}" process="turmaDialog"
+									action="#{turmaControle.alterarTurma()}" process="turmaDialog"
 									oncomplete="if (!args.validationFailed &amp;&amp; args.validacaoForm) PF('edicaoTurmaDialog').hide()"
-									update="msgTurmaDialog " />
+									update="msgTurmaDialog pnlPessoaDialog1 turma-table" />
 								<p:commandButton id="voltar" value="Voltar"
 									oncomplete="PF('edicaoTurmaDialog').hide()" />
 							</f:facet>

@@ -18,19 +18,19 @@ public class TbDiasSemana implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_diasSemana;
 	
-	private byte dom;
+	private boolean dom;
 
-	private byte qua;
+	private boolean qua;
 
-	private byte qui;
+	private boolean qui;
 
-	private byte sab;
+	private boolean sab;
 
-	private byte seg;
+	private boolean seg;
 
-	private byte sex;
+	private boolean sex;
 
-	private byte ter;
+	private boolean ter;
 
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_diasSemana", referencedColumnName="id_diasSemana")
@@ -48,65 +48,81 @@ public class TbDiasSemana implements Serializable {
 		this.id_diasSemana = id_diasSemana;
 	}
 
-	public byte getDom() {
-		return this.dom;
+
+	public boolean isDom() {
+		return dom;
 	}
 
-	public void setDom(byte dom) {
+
+	public void setDom(boolean dom) {
 		this.dom = dom;
 	}
 
-	public byte getQua() {
-		return this.qua;
+
+	public boolean isQua() {
+		return qua;
 	}
 
-	public void setQua(byte qua) {
+
+	public void setQua(boolean qua) {
 		this.qua = qua;
 	}
 
-	public byte getQui() {
-		return this.qui;
+
+	public boolean isQui() {
+		return qui;
 	}
 
-	public void setQui(byte qui) {
+
+	public void setQui(boolean qui) {
 		this.qui = qui;
 	}
 
-	public byte getSab() {
-		return this.sab;
+
+	public boolean isSab() {
+		return sab;
 	}
 
-	public void setSab(byte sab) {
+
+	public void setSab(boolean sab) {
 		this.sab = sab;
 	}
 
-	public byte getSeg() {
-		return this.seg;
+
+	public boolean isSeg() {
+		return seg;
 	}
 
-	public void setSeg(byte seg) {
+
+	public void setSeg(boolean seg) {
 		this.seg = seg;
 	}
 
-	public byte getSex() {
-		return this.sex;
+
+	public boolean isSex() {
+		return sex;
 	}
 
-	public void setSex(byte sex) {
+
+	public void setSex(boolean sex) {
 		this.sex = sex;
 	}
 
-	public byte getTer() {
-		return this.ter;
+
+	public boolean isTer() {
+		return ter;
 	}
 
-	public void setTer(byte ter) {
+
+	public void setTer(boolean ter) {
 		this.ter = ter;
 	}
 
+
 	public TbTurma getTbTurma() {
-		return this.tbTurma;
+		return tbTurma;
 	}
+
 
 	public void setTbTurma(TbTurma tbTurma) {
 		this.tbTurma = tbTurma;
@@ -115,9 +131,10 @@ public class TbDiasSemana implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TbDiasSemana [id_diasSemana=" + id_diasSemana + ", dom=" + dom + ", qua=" + qua + ", qui=" + qui
-				+ ", sab=" + sab + ", seg=" + seg + ", sex=" + sex + ", ter=" + ter + ", tbTurma=" + tbTurma + "]";
+		return "TbDiasSemana [dom=" + dom + ", qua=" + qua + ", qui=" + qui + ", sab=" + sab + ", seg=" + seg + ", sex="
+				+ sex + ", ter=" + ter + ", tbTurma=" + tbTurma + "]";
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -126,6 +143,7 @@ public class TbDiasSemana implements Serializable {
 		result = prime * result + id_diasSemana;
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -140,5 +158,5 @@ public class TbDiasSemana implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

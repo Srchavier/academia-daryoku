@@ -1,6 +1,7 @@
 package br.com.academiaDaryoku.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,8 @@ public class TbTurma implements Serializable {
 	private List<TbAula> tbAulas;
 
 	public TbTurma() {
+		tbDiassemana = new TbDiasSemana();
+		tbAulas = new ArrayList<>();
 	}
 
 	public int getIdTurma() {

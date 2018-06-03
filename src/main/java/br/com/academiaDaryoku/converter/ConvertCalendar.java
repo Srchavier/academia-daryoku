@@ -17,7 +17,8 @@ public class ConvertCalendar implements Converter, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	@SuppressWarnings("unused")
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	private DateTimeConverter converter = new DateTimeConverter();
 
 	// converte da tela para o objeto

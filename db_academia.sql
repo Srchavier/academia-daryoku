@@ -257,4 +257,17 @@ ADD CONSTRAINT `fk_tb_aula_tb_turma1`
   REFERENCES `db_academia`.`tb_turma` (`id_turma`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;  
+  
+ ALTER TABLE `db_academia`.`tb_turma` 
+DROP FOREIGN KEY `fk_tb_turma_tb_diassemana1`;
+
+ALTER TABLE `db_academia`.`tb_turma` 
+CHANGE COLUMN `id_diasSemana` `id_diasSemana` SMALLINT(5) NULL DEFAULT NULL ;
+
+ALTER TABLE `db_academia`.`tb_turma` 
+ADD CONSTRAINT `fk_tb_turma_tb_diassemana1`
+  FOREIGN KEY (`id_diasSemana`)
+  REFERENCES `db_academia`.`tb_diassemana` (`id_diasSemana`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION; 
 
