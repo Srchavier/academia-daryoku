@@ -292,7 +292,8 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_presenca` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+ALTER TABLE `db_academia`.`tb_presenca` 
+CHANGE COLUMN `tb_presencacol` `presenca` TINYINT(4) NOT NULL AFTER `id_presenca`;
 
-v
 
 

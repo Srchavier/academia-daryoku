@@ -34,16 +34,6 @@ public class PessoaService implements Serializable {
 		}
 	}
 
-	@Transacional
-	public TbPessoa salvar(TbPessoa tbPessoa) {
-		return pessoaRepository.salva(tbPessoa);
-	}
-
-	@Transacional
-	public TbPessoa alterar(TbPessoa tbPessoa) {
-		return pessoaRepository.alterar(tbPessoa);
-	}
-
 	public TbPessoa findOne(TbPessoa tbPessoaSelecionada) {
 		return pessoaRepository.porId(tbPessoaSelecionada.getIdPessoa());
 	}
@@ -55,5 +45,14 @@ public class PessoaService implements Serializable {
 	public List<TbPessoa> buscaPorNome(FilterAll filter) {
 		return pessoaRepository.buscaPorNome(filter);
 	}
-
+	
+	@Transacional
+	public TbPessoa salvar(TbPessoa tbPessoa) {
+		return pessoaRepository.salva(tbPessoa);
+	}
+	
+	@Transacional
+	public TbPessoa alterar(TbPessoa tbPessoa) {
+		return pessoaRepository.alterar(tbPessoa);
+	}
 }

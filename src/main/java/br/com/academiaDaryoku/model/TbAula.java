@@ -22,40 +22,39 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the tb_aula database table.
  * 
  */
 @Entity
-@Table(name="tb_aula")
-@NamedQuery(name="TbAula.findAll", query="SELECT t FROM TbAula t")
+@Table(name = "tb_aula")
+@NamedQuery(name = "TbAula.findAll", query = "SELECT t FROM TbAula t")
 public class TbAula implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="dt_aula")
+	@Column(name = "dt_aula")
 	private Date dtAula;
 
-	@Column(name="hr_fim")
+	@Column(name = "hr_fim")
 	private Time hrFim;
 
-	@Column(name="hr_inicio")
+	@Column(name = "hr_inicio")
 	private Time hrInicio;
 
 	@Id
-	@GeneratedValue(strategy =GenerationType.IDENTITY)
-	@Column(name="id_aula")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_aula")
 	private int idAula;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_turma", referencedColumnName="id_turma")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_turma", referencedColumnName = "id_turma")
 	private TbTurma tbTurma;
 
 	public TbAula() {
-		
+
 	}
-	
+
 	public TbAula(LocalDate dataAux, LocalTime hrInicio, LocalTime hrFim) {
 		dtAula = Date.from(dataAux.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		this.hrInicio = Time.valueOf(hrInicio);
@@ -102,13 +101,11 @@ public class TbAula implements Serializable {
 		this.tbTurma = tbTurma;
 	}
 
-
 	@Override
 	public String toString() {
-		return "TbAula [dtAula=" + dtAula + ", hrFim=" + hrFim + ", hrInicio=" + hrInicio
-				+ ", idAula=" + idAula + ", tbTurma=" + tbTurma + "]";
+		return "TbAula [dtAula=" + dtAula + ", hrFim=" + hrFim + ", hrInicio=" + hrInicio + ", idAula=" + idAula
+				+ ", tbTurma=" + tbTurma + "]";
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -117,7 +114,6 @@ public class TbAula implements Serializable {
 		result = prime * result + idAula;
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -132,10 +128,10 @@ public class TbAula implements Serializable {
 			return false;
 		return true;
 	}
-	
-	public static LocalTime  gvxg(Date d) {
-        Instant instant = Instant.ofEpochMilli(d.getTime());
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalTime();
-    }
+
+	public static LocalTime gvxg(Date d) {
+		Instant instant = Instant.ofEpochMilli(d.getTime());
+		return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalTime();
+	}
 
 }

@@ -1,5 +1,6 @@
 package br.com.academiaDaryoku.respository;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.metamodel.SingularAttribute;
@@ -23,5 +24,7 @@ public interface Repository<T> {
 	public List<T> find(String jpql, Object... params);
 
 	public List<T> buscaCriteria(FilterAll filter, SingularAttribute<T, String> nmPessoa);
+	
+	public List<T> buscaCriteriaData(FilterAll filter, SingularAttribute<T, Date> nmPessoa);
 
 }

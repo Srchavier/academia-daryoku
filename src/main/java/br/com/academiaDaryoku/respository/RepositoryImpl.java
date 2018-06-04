@@ -2,6 +2,7 @@ package br.com.academiaDaryoku.respository;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -103,6 +104,38 @@ public class RepositoryImpl<T> implements Repository<T> {
 
 		if (!org.apache.commons.lang3.StringUtils.isEmpty(filter.getNome())) {
 			predicates.add(builder.like(builder.lower(root.get(nmPessoa)), "%" + filter.getNome().toLowerCase() + "%"));
+		}
+
+		return predicates.toArray(new Predicate[predicates.size()]);
+	}
+
+	@Override
+	public List<T> buscaCriteriaData(FilterAll filter, SingularAttribute<T, Date> data) {
+		try {
+
+			CriteriaBuilder builder = manager.getCriteriaBuilder();
+			CriteriaQuery<T> criteria = builder.createQuery(clazz);
+			Root<T> root = criteria.from(clazz);
+
+			Predicate[] predicates = criarRestricoesData(filter, builder, root, data);
+			criteria.where(predicates);
+
+			TypedQuery<T> query = manager.createQuery(criteria);
+
+			List<T> entities = query.getResultList();
+			return entities;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	private Predicate[] criarRestricoesData(FilterAll filter, CriteriaBuilder builder, Root<T> root,
+			SingularAttribute<T, Date> data) {
+
+		List<Predicate> predicates = new ArrayList<>();
+
+		if (filter.getDate() != null) {
+			predicates.add(builder.equal(root.get(data), "%" + filter.getDate() + "%"));
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);
