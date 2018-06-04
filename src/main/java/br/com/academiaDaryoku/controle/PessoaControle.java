@@ -16,8 +16,6 @@ import javax.persistence.NoResultException;
 
 import org.primefaces.PrimeFaces;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import br.com.academiaDaryoku.converter.ConverterCidade;
 import br.com.academiaDaryoku.converter.ConverterEstado;
 import br.com.academiaDaryoku.converter.ConverterTurma;

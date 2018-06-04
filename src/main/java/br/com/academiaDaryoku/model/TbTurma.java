@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
  * The persistent class for the tb_turma database table.
  *
  */
+
 @Entity
 @Table(name = "tb_turma")
 @NamedQuery(name = "TbTurma.findAll", query = "SELECT t FROM TbTurma t")
@@ -64,14 +65,16 @@ public class TbTurma implements Serializable {
 					@JoinColumn(name = "tb_evento_id_Evento") })
 	private List<TbEvento> tbEventos;
 
-	@OneToOne(mappedBy = "tbTurma", fetch = FetchType.LAZY)
-	private TbDiasSemana tbDiassemana;
+	// bi-directional one-to-one association to TbDiassemana
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_diasSemana", referencedColumnName = "id_diasSemana")
+	private TbDiassemana tbDiassemana;
 
-	@OneToMany(mappedBy = "tbTurma", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "tbTurma", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<TbAula> tbAulas;
 
 	public TbTurma() {
-		tbDiassemana = new TbDiasSemana();
+		tbDiassemana = new TbDiassemana();
 		tbAulas = new ArrayList<>();
 	}
 
@@ -123,11 +126,11 @@ public class TbTurma implements Serializable {
 		this.tbPessoa = tbPessoa;
 	}
 
-	public TbDiasSemana getTbDiassemana() {
+	public TbDiassemana getTbDiassemana() {
 		return this.tbDiassemana;
 	}
 
-	public void setTbDiassemana(TbDiasSemana tbDiassemana) {
+	public void setTbDiassemana(TbDiassemana tbDiassemana) {
 		this.tbDiassemana = tbDiassemana;
 	}
 
@@ -165,5 +168,13 @@ public class TbTurma implements Serializable {
 	public String toString() {
 		return nome;
 	}
+
+	public TbAula adicionarAula(TbAula aula) {
+		aula.setTbTurma(this);
+		getTbAulas().add(aula);
+
+		return aula;
+	}
+
 
 }

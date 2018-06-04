@@ -1,10 +1,8 @@
 package br.com.academiaDaryoku.converter;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.TimeZone;
 
 import javax.faces.component.UIComponent;
@@ -12,8 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.FacesConverter;
-
-import br.com.academiaDaryoku.model.TbTurma;
 
 @FacesConverter(forClass = LocalTimeConverter.class)
 public class LocalTimeConverter implements Converter,Serializable {

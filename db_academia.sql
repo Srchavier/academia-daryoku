@@ -258,7 +258,7 @@ ADD CONSTRAINT `fk_tb_aula_tb_turma1`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;  
   
- ALTER TABLE `db_academia`.`tb_turma` 
+ALTER TABLE `db_academia`.`tb_turma` 
 DROP FOREIGN KEY `fk_tb_turma_tb_diassemana1`;
 
 ALTER TABLE `db_academia`.`tb_turma` 
@@ -270,4 +270,29 @@ ADD CONSTRAINT `fk_tb_turma_tb_diassemana1`
   REFERENCES `db_academia`.`tb_diassemana` (`id_diasSemana`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION; 
+  
+CREATE TABLE IF NOT EXISTS `db_academia`.`tb_presenca` (
+  `id_presenca` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_aula` INT(10) UNSIGNED NOT NULL,
+  `id_pessoa` INT(11) NOT NULL,
+  `tb_presencacol` TINYINT(4) NOT NULL,
+  PRIMARY KEY (`id_presenca`),
+  INDEX `fk_tb_presença_tb_aula1_idx` (`id_aula` ASC),
+  INDEX `fk_tb_presença_tb_pessoa1_idx` (`id_pessoa` ASC),
+  CONSTRAINT `fk_tb_presença_tb_aula1`
+    FOREIGN KEY (`id_aula`)
+    REFERENCES `db_academia`.`tb_aula` (`id_aula`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tb_presença_tb_pessoa1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `db_academia`.`tb_pessoa` (`id_pessoa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+v
+
 

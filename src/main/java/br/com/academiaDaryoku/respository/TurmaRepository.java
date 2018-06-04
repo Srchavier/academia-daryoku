@@ -52,5 +52,9 @@ public class TurmaRepository extends RepositoryImpl<TbTurma> implements Serializ
 				.setParameter("turma", pessoa.getIdPessoa()).getResultList();
 		return turmas;
 	}
+	
+	public void salvarTurma(TbTurma tbTurma) {
+		 super.manager.persist(tbTurma);
+	}
 
 }
