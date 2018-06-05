@@ -275,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_presenca` (
   `id_presenca` INT(11) NOT NULL AUTO_INCREMENT,
   `id_aula` INT(10) UNSIGNED NOT NULL,
   `id_pessoa` INT(11) NOT NULL,
-  `tb_presencacol` TINYINT(4) NOT NULL,
+  `presenca` TINYINT(4) NOT NULL,
   PRIMARY KEY (`id_presenca`),
   INDEX `fk_tb_presença_tb_aula1_idx` (`id_aula` ASC),
   INDEX `fk_tb_presença_tb_pessoa1_idx` (`id_pessoa` ASC),
@@ -292,8 +292,9 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_presenca` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-ALTER TABLE `db_academia`.`tb_presenca` 
-CHANGE COLUMN `tb_presencacol` `presenca` TINYINT(4) NOT NULL AFTER `id_presenca`;
+ALTER TABLE `db_academia`.`tb_pessoa` 
+ADD COLUMN `tipoFaixa` ENUM('A', 'VER', 'L', 'VERD', 'R', 'M', 'P') NULL DEFAULT NULL AFTER `tb_turma_id_turma`;
+
 
 
 
