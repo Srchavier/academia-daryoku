@@ -16,23 +16,17 @@ import javax.inject.Inject;
 
 import br.com.academiaDaryoku.model.DiasDaSemana;
 import br.com.academiaDaryoku.model.TbAula;
-import br.com.academiaDaryoku.model.TbDiassemana;
 import br.com.academiaDaryoku.model.TbPessoa;
 import br.com.academiaDaryoku.model.TbTurma;
-import br.com.academiaDaryoku.respository.DiaSemanaRepository;
 import br.com.academiaDaryoku.respository.TurmaRepository;
 import br.com.academiaDaryoku.ultils.Transacional;
 
 public class TurmaService implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 1660382446407023570L;
+	
 	@Inject
 	private TurmaRepository turmaRepository;
-
-	@Inject
-	private DiaSemanaRepository diaRepository;
-
 
 	public Object find(Class<TbTurma> class1, int parseLong) {
 		return turmaRepository.porId(parseLong);
@@ -62,10 +56,6 @@ public class TurmaService implements Serializable {
 			return null;
 		}
 
-	}
-
-	public List<TbDiassemana> listDias() {
-		return diaRepository.todos();
 	}
 
 	@Transacional

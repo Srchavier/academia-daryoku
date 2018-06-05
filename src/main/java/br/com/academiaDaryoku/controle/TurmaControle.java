@@ -88,9 +88,7 @@ public class TurmaControle implements Serializable {
 		return true;
 	}
 
-	public List<TbDiassemana> listaDias() {
-		return turmaService.listDias();
-	}
+	
 
 	public List<TbTurma> getTurmas() {
 		return turmas;
