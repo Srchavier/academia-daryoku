@@ -72,7 +72,7 @@
 
 	<filter-mapping>
 		<filter-name>PageFilter</filter-name>
-		<url-pattern>/sistema/sdsa/*</url-pattern>
+		<url-pattern>/sistema/*</url-pattern>
 	</filter-mapping>
 
 	<mime-mapping>

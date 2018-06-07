@@ -115,25 +115,40 @@ public class PerfilControle implements Serializable {
 		listaCidades = (cidadeService.findPorIdEstado(tbEndereco.getTbCidade().getTbEstado().getIdEstado()));
 	}
 
-	public void alterarDadosPerfil() {
-		TbPessoa pessoaSalvar = pessoaService.alterar(this.tbPessoa);
+	public boolean alterarDadosPerfil() {
+		if (this.tbUsuario.getMatSenha().length() >= 16 || this.tbUsuario.getMatSenha().length() <= 4) {
+			UtilMensagens.mensagemInformacao("senha deve ser maior 5 e menor 16!");
+			PrimeFaces.current().ajax().addCallbackParam("validacaoMat", false);
+			PrimeFaces.current().ajax().update("form");
+			return false;
+		}
+		try {
 
-		tbContato.setTbPessoa(pessoaSalvar);
-		contatoService.alterar(tbContato);
+			TbPessoa pessoaSalvar = pessoaService.alterar(this.tbPessoa);
 
-		tbEndereco.setTbCidade(tbCidade);
-		tbEndereco.setTbPessoa(pessoaSalvar);
-		enderencoService.alterar(tbEndereco);
+			tbContato.setTbPessoa(pessoaSalvar);
+			contatoService.alterar(tbContato);
 
-		tbUsuario.setMatSenha(Sha256.shaSet(tbUsuario.getMatSenha()));
-		tbUsuario.setTbPessoa(pessoaSalvar);
-		usuarioService.alterar(tbUsuario);
-		tbUsuario.setMatSenha("");
-		this.tbContato = contatoService.porIdPessoa(tbPessoa.getIdPessoa());
-		UtilMensagens.mensagemInformacao("Edição feita com sucesso!");
-		PrimeFaces.current().ajax().addCallbackParam("validacaoMat", true);
-		PrimeFaces.current().ajax().update("form:msgs");
-		PrimeFaces.current().ajax().update("form");
+			tbEndereco.setTbCidade(tbCidade);
+			tbEndereco.setTbPessoa(pessoaSalvar);
+			enderencoService.alterar(tbEndereco);
+
+			tbUsuario.setMatSenha(Sha256.shaSet(tbUsuario.getMatSenha()));
+			tbUsuario.setTbPessoa(pessoaSalvar);
+			usuarioService.alterar(tbUsuario);
+			tbUsuario.setMatSenha("");
+			this.tbContato = contatoService.porIdPessoa(tbPessoa.getIdPessoa());
+			UtilMensagens.mensagemInformacao("Edição feita com sucesso!");
+			PrimeFaces.current().ajax().addCallbackParam("validacaoMat", true);
+			PrimeFaces.current().ajax().update("form:msgs");
+			PrimeFaces.current().ajax().update("form");
+			return true;
+
+		} catch (Exception e) {
+			UtilMensagens.mensagemErro("Erro ao alterar!");
+			PrimeFaces.current().ajax().update("form");
+			return false;
+		}
 	}
 
 	public synchronized void uploadAction(FileUploadEvent event) {
@@ -160,7 +175,7 @@ public class PerfilControle implements Serializable {
 		} else if (tbPessoa.getFlSexo().equals(SexoEnum.F)) {
 			return "//resources/imagens/feminino.png";
 		}
-		UtilMensagens.mensagemInformacao("Erro alterar ao carregar foto!");
+		UtilMensagens.mensagemInformacao("Erro ao carregar foto!");
 		PrimeFaces.current().ajax().update(Arrays.asList("form:fotoUpload:msgFotoDialog, form:fotoUpload, form"));
 		return null;
 	}

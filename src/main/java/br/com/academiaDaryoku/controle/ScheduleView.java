@@ -3,6 +3,7 @@ package br.com.academiaDaryoku.controle;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -94,42 +95,64 @@ public class ScheduleView implements Serializable {
 		this.event = event;
 	}
 
-	public synchronized void addEvent(ActionEvent actionEvent) throws ParseException {
-		if (event.getId() == null) {
-
-			tbEvento = ScheduleEventConverter.getConverter().toAgendamento((EventoScheduleModel) event);
-
-			eventoService.save(tbEvento);
-
-			UtilMensagens.mensagemInformacao("Salvo com sucesso!");
-			PrimeFaces.current().ajax().addCallbackParam("validacaoMat", true);
+	public synchronized boolean addEvent(ActionEvent actionEvent) throws ParseException {
+		if(!eventoInicioEFim(event)) {
+			UtilMensagens.mensagemInformacao("Data Início da evento maior que data fim ou inferior a hoje!");
+			PrimeFaces.current().ajax().addCallbackParam("validacaoMat", false);
 			PrimeFaces.current().ajax().update("messages");
-
-		} else {
-			TbEvento tbEvento = ScheduleEventConverter.getConverter().toAgendamento((EventoScheduleModel) event);
-			eventoService.alterar(tbEvento);
-
-			UtilMensagens.mensagemInformacao("Alterando com sucesso!");
-			PrimeFaces.current().ajax().addCallbackParam("validacaoMat", true);
-			PrimeFaces.current().ajax().update("messages");
+			return false;
 		}
+		
+		try {
+			if (event.getId() == null) {
 
-		tbEvento = new TbEvento();
-		event = new EventoScheduleModel();
+				tbEvento = ScheduleEventConverter.getConverter().toAgendamento((EventoScheduleModel) event);
 
-		buscarTodos();
+				eventoService.save(tbEvento);
+
+				UtilMensagens.mensagemInformacao("Evento salvo com sucesso!");
+				PrimeFaces.current().ajax().addCallbackParam("validacaoMat", true);
+				PrimeFaces.current().ajax().update("messages");
+
+			} else {
+				TbEvento tbEvento = ScheduleEventConverter.getConverter().toAgendamento((EventoScheduleModel) event);
+				eventoService.alterar(tbEvento);
+
+				UtilMensagens.mensagemInformacao("Evento alterando com sucesso!");
+				PrimeFaces.current().ajax().addCallbackParam("validacaoMat", true);
+				PrimeFaces.current().ajax().update("messages");
+			}
+
+			tbEvento = new TbEvento();
+			event = new EventoScheduleModel();
+
+			buscarTodos();
+			return true;
+		} catch (Exception e) {
+			UtilMensagens.mensagemErro("Erro ao cadastrar!");
+			return false;
+		}
 
 	}
 
+	private boolean eventoInicioEFim(ScheduleEvent data) {
+		return data.getStartDate().before(data.getEndDate()) && data.getStartDate().after(new Date())
+				&& data.getStartDate().after(new Date());
+	}
+
 	public void excluir() {
-		if (event.getData() != null) {
-			tbEvento = ScheduleEventConverter.getConverter().toAgendamento((EventoScheduleModel) event);
-			// eventoService.delete(tbEvento.getId_Evento());
-		} else {
-			UtilMensagens.mensagemInformacao("Nao existe regristo");
+		try {
+			if (event.getData() != null) {
+				tbEvento = ScheduleEventConverter.getConverter().toAgendamento((EventoScheduleModel) event);
+				// eventoService.delete(tbEvento.getId_Evento());
+			} else {
+				UtilMensagens.mensagemInformacao("Nao existe registro");
+			}
+			UtilMensagens.mensagemInformacao("Evento excluído com sucesso!");
+			buscarTodos();
+		} catch (Exception e) {
+			UtilMensagens.mensagemErro("Erro ao excluir cadastrar!");
 		}
-		UtilMensagens.mensagemInformacao("Excluído com sucesso!");
-		buscarTodos();
 	}
 
 	public void onEventSelect(SelectEvent selectEvent) {

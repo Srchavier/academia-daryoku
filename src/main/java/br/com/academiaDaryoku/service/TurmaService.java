@@ -14,12 +14,15 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.primefaces.PrimeFaces;
+
 import br.com.academiaDaryoku.model.DiasDaSemana;
 import br.com.academiaDaryoku.model.TbAula;
 import br.com.academiaDaryoku.model.TbPessoa;
 import br.com.academiaDaryoku.model.TbTurma;
 import br.com.academiaDaryoku.respository.TurmaRepository;
 import br.com.academiaDaryoku.ultils.Transacional;
+import br.com.academiaDaryoku.ultils.UtilMensagens;
 
 public class TurmaService implements Serializable {
 
@@ -77,6 +80,9 @@ public class TurmaService implements Serializable {
 	public void salvar(TbTurma tbTurma, LocalTime hrInicio, LocalTime hrFim) {
 		if (gerarTurmas(tbTurma, hrInicio, hrFim)) {
 			turmaRepository.salva(tbTurma);
+		}else {
+			PrimeFaces.current().ajax().addCallbackParam("validacaoMat",false);
+			UtilMensagens.mensagemInformacao("erro ao cadastrar!");
 		}
 
 	}

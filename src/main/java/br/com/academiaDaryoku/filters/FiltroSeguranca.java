@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import br.com.academiaDaryoku.model.TbUsuario;
 
-@WebFilter("/sistema/dsad/*")
+@WebFilter("/sistema/*")
 public class FiltroSeguranca implements Filter {
 
 	@Override

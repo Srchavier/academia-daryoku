@@ -24,13 +24,14 @@
 									<div class="ui-g-12 ui-md-4 ui-g-nopad">
 										<p:outputLabel for="input" value="Nome:" />
 										<p:inputText id="input" value="#{turmaControle.tbTurma.nome}"
-											required="true" requiredMessage="data ínicio é obrigatório." />
+											required="true" requiredMessage="nome é obrigatório."
+											validatorMessage="Informe nome da turma de 10 a 45 caracteres." />
 									</div>
 									<div class="ui-g-12 ui-md-4 ui-g-nopad">
 										<p:outputLabel for="DataInicio" value="Início da turma:" />
 										<p:calendar id="DataInicio" required="true"
 											value="#{turmaControle.tbTurma.dtInicio}"
-											requiredMessage="data ínicio é obrigatório." timeZone="GMT-3"
+											requiredMessage="data início é obrigatório." timeZone="GMT-3"
 											pattern="dd/MM/yyyy">
 											<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 										</p:calendar>
@@ -193,7 +194,7 @@
 							<p:outputLabel value="Nome:" for="nome" />
 							<p:inputText id="nome" value="#{turmaControle.tbTurma.nome}"
 								required="true" requiredMessage="Campo nome é obrigatório."
-								validatorMessage="Informe o seu nome de 15 a 120 caracteres." />
+								validatorMessage="Informe o seu nome de 15 a 80 caracteres." />
 							<f:facet name="footer">
 								<p:commandButton id="salvar-button" value="Salvar"
 									action="#{turmaControle.alterarTurma()}" process="turmaDialog"

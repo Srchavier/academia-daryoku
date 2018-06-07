@@ -32,13 +32,15 @@
 				<h:panelGrid id="eventDetails" columns="2">
 					<p:outputLabel for="title" value="Nome do evento:" />
 					<p:inputText id="title" value="#{scheduleView.event.title}"
-						required="true" requiredMessage="nome é obrigatório." size="45">
+						required="true" requiredMessage="nome é obrigatório." size="45"
+						validatorMessage="Informe nome do evento de 5 a 45 caracteres.">
 						<f:validateLength minimum="5" maximum="45" />
 					</p:inputText>
 
 					<p:outputLabel for="subTitulo" value="Subtítulo" />
 					<p:inputText id="subTitulo" value="#{scheduleView.event.subTitulo}"
-						required="true" requiredMessage="nome é obrigatório." size="45">
+						required="true" requiredMessage="Subtítulo é obrigatório." size="45"
+						validatorMessage="Informe subtítulo turma de 5 a 45 caracteres.">
 						<f:validateLength minimum="5" maximum="45" />
 					</p:inputText>
 
@@ -55,18 +57,19 @@
 
 					<p:outputLabel for="from" value="Início do evento" />
 					<p:calendar id="from" value="#{scheduleView.event.startDate}"
-						required="true" requiredMessage="data inicio é obrigatório."
+						required="true" requiredMessage="data início é obrigatório."
 						timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" />
 
 					<p:outputLabel for="to" value="Fim do evento" />
 					<p:calendar id="to" value="#{scheduleView.event.endDate}"
 						timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" required="true"
-						requiredMessage="data fim  é obrigatório." />
+						requiredMessage="data fim é obrigatório." />
 
 					<p:outputLabel for="descricao" value="Descricão do evento:" />
 					<p:textEditor widgetVar="descricao" id="descricao"
 						value="#{scheduleView.event.description}" height="70"
-						style="margin-bottom:10px">
+						style="margin-bottom:10px"
+						validatorMessage="Informe subtítulo turma 5 a 800 caracteres.">
 						<f:validateLength minimum="5" maximum="800" />
 					</p:textEditor>
 

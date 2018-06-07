@@ -39,8 +39,12 @@ public class LoginRepository extends RepositoryImpl<TbUsuario> implements Serial
 	}
 
 	public TbUsuario porMatricula(String matricula) {
-		return super.manager.createQuery("FROM TbUsuario WHERE mat_login = :matricula", TbUsuario.class)
-				.setParameter("matricula", matricula).getSingleResult();
+		try {
+			return super.manager.createQuery("FROM TbUsuario WHERE mat_login = :matricula", TbUsuario.class)
+					.setParameter("matricula", matricula).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public void remove(TbUsuario tbUsuario) {

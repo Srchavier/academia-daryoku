@@ -110,8 +110,8 @@
 							<p:outputLabel value="Nome:" for="nome" />
 							<p:inputText id="nome"
 								value="#{pessoaControle.tbPessoa.nmPessoa}" required="true"
-								requiredMessage="Campo nome é obrigatório."
-								validatorMessage="Informe o seu nome de 20 a 120 caracteres." />
+								requiredMessage="nome é obrigatório."
+								validatorMessage="Informe seu nome de 15 a 50 caracteres." />
 
 							<p:outputLabel value="CPF Opcional:" for="cpf" />
 							<p:inputMask id="cpf" mask="999.999.999-99"
@@ -146,14 +146,15 @@
 							<p:inputText id="login"
 								value="#{pessoaControle.tbUsuario.matLogin}"
 								requiredMessage="Informe o login"
-								validatorMessage="Informe o seu login de 5 a 20 caracteres."
+								validatorMessage="Informe o seu login de 9 a 9 caracteres."
 								required="true" disabled="true" />
 
 							<p:outputLabel value="Senha:" for="senha" />
 							<p:password feedback="true" weakLabel="ruim" goodLabel="bom"
-								strongLabel="ótima" promptLabel="Informe uma senha!" id="senha"
+								strongLabel="Ótima." promptLabel="Informe uma senha!" id="senha"
 								value="#{pessoaControle.tbUsuario.matSenha}"
-								requiredMessage="Informe sua senha." required="true" />
+								requiredMessage="Informe sua senha." required="true"
+								validatorMessage="Informe o seu login de 5 a 16 caracteres." />
 
 							<p:outputLabel value="Tipo: " for="tipo" />
 							<p:selectOneMenu id="tipo" requiredMessage="Informe o tipo."
@@ -181,7 +182,7 @@
 							<p:outputLabel value="Telefone 1:" for="telefone1" />
 							<p:inputMask mask="(99)9 9999-9999" id="telefone1"
 								value="#{pessoaControle.tbContato.tele1}"
-								requiredMessage="Informe o telefone" required="true" />
+								requiredMessage="Informe o telefone." required="true" />
 
 							<p:outputLabel value="Telefone 2:" for="telefone2" />
 							<p:inputMask mask="(99)9 9999-9999" id="telefone2"
@@ -195,7 +196,7 @@
 							<p:inputText id="logradouro"
 								value="#{pessoaControle.tbEndereco.logradouro}"
 								requiredMessage="Informe um logradouro."
-								validatorMessage="Informe um logradouro de 30 a 120 caracteres."
+								validatorMessage="Informe um logradouro de 15 a 50 caracteres."
 								required="true" />
 
 							<p:outputLabel value="Complemento" for="complemento" />
@@ -215,7 +216,7 @@
 
 							<p:outputLabel value="Estado:" for="estado" />
 							<p:selectOneMenu value="#{pessoaControle.tbEstado}" id="estado"
-								converter="#{pessoaControle.converterEstado}" required="true">
+								converter="#{pessoaControle.converterEstado}" required="true" requiredMessage="Informe um estado">
 								<f:selectItem itemLabel="Selecione estado"
 									noSelectionOption="true" />
 								<f:selectItems value="#{pessoaControle.listEstado()}"
@@ -228,7 +229,7 @@
 							<p:outputLabel value="Cidade:" for="cidade" />
 							<p:selectOneMenu value="#{pessoaControle.tbCidade}"
 								converter="#{pessoaControle.converterCidade}" id="cidade"
-								required="true">
+								required="true" requiredMessage="Informe um cidade.">
 								<f:selectItem itemLabel="Selecione a cidade" />
 								<f:selectItems value="#{pessoaControle.listaCidades}" />
 							</p:selectOneMenu>

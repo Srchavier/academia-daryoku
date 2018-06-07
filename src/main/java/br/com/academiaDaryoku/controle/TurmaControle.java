@@ -58,10 +58,10 @@ public class TurmaControle implements Serializable {
 			UtilMensagens.mensagemInformacao("Selecione um dia da semana!");
 		}else if(!turmaInicioEFim(tbTurma)) {
 			PrimeFaces.current().ajax().addCallbackParam("validacaoMat",false);
-			UtilMensagens.mensagemInformacao("Data Início da turma maior que data fim ou inferior a hoje!");
+			UtilMensagens.mensagemInformacao("Data Início da turma maior que data fim ou início inferior a hoje!");
 		}else if(!aulaInicioEFim(hrInicio, hrFim)) {
 			PrimeFaces.current().ajax().addCallbackParam("validacaoMat",false);
-			UtilMensagens.mensagemInformacao("Hora início menor que hora final");
+			UtilMensagens.mensagemInformacao("Hora início menor que hora final!");
 		}else if(tbTurma != null && hrFim != null && hrInicio != null) {
 			turmaService.salvar(tbTurma, hrInicio, hrFim);
 			init();

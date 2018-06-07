@@ -57,7 +57,7 @@ public class TbPessoa implements Serializable {
 
 	@Column(name = "nm_pessoa")
 	@NotEmpty(message = "Informe um nome")
-	@Size(max = 120, min = 15)
+	@Size(max = 50, min = 15)
 	private String nmPessoa;
 
 	@Enumerated(EnumType.STRING)

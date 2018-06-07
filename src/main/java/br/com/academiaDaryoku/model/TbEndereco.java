@@ -39,7 +39,7 @@ public class TbEndereco implements Serializable {
 	private String complemento;
 
 	@NotEmpty(message = "Informe um endereço!")
-	@Size(max = 120, min = 10)
+	@Size(max =50 , min = 20)
 	private String logradouro;
 
 	private int numero;

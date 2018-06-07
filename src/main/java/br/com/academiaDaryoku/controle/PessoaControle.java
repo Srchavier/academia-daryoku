@@ -109,10 +109,13 @@ public class PessoaControle implements Serializable {
 		newModel();
 		String gg = gerarMatricula();
 		try {
-			usuarioService.porMatLogin(gg);
-			novo();
-		} catch (NoResultException e) {
+			TbUsuario gerar = usuarioService.porMatLogin(gg);
+			if(gerar != null) {
+				novo();
+			}
 			tbUsuario.setMatLogin(gg);
+		} catch (NoResultException e) {
+			UtilMensagens.mensagemErro("Erro ao gerar!");
 		}
 		tbPessoaSelecionada = null;
 	}
@@ -139,7 +142,7 @@ public class PessoaControle implements Serializable {
 
 		pessoa = new ArrayList<>();
 		if (!(pessoa = pessoaService.buscaPorNome(filter)).isEmpty()) {
-			UtilMensagens.mensagemInformacao(pessoa.size() + " Regristro encontrad(o)!");
+			UtilMensagens.mensagemInformacao(pessoa.size() + " Registro encontrad(o)!");
 		} else {
 			UtilMensagens.mensagemInformacao("Não encontrado!");
 		}
@@ -155,14 +158,19 @@ public class PessoaControle implements Serializable {
 	}
 
 	public void editarPessoa() {
-		tbTurma = tbPessoa.getTbTurma();
-		tbEndereco = enderencoService.porIdPessoa(tbPessoaSelecionada.getIdPessoa());
-		tbContato = contatoService.porIdPessoa(tbPessoaSelecionada.getIdPessoa());
-		tbUsuario = usuarioService.porIdPessoa(tbPessoaSelecionada.getIdPessoa());
-		tbUsuario.setMatSenha("");
-		tbCidade = tbEndereco.getTbCidade();
-		tbEstado = tbEndereco.getTbCidade().getTbEstado();
-		listaCidades = (cidadeService.findPorIdEstado(tbEndereco.getTbCidade().getTbEstado().getIdEstado()));
+		try {
+			tbTurma = tbPessoa.getTbTurma();
+			tbEndereco = enderencoService.porIdPessoa(tbPessoaSelecionada.getIdPessoa());
+			tbContato = contatoService.porIdPessoa(tbPessoaSelecionada.getIdPessoa());
+			tbUsuario = usuarioService.porIdPessoa(tbPessoaSelecionada.getIdPessoa());
+			tbUsuario.setMatSenha("");
+			tbCidade = tbEndereco.getTbCidade();
+			tbEstado = tbEndereco.getTbCidade().getTbEstado();
+			listaCidades = (cidadeService.findPorIdEstado(tbEndereco.getTbCidade().getTbEstado().getIdEstado()));
+
+		} catch (Exception e) {
+			UtilMensagens.mensagemErro("Erro ao editar!");
+		}
 	}
 
 	public List<TbCidade> EstadoSelecionadoCidade() {
@@ -171,6 +179,7 @@ public class PessoaControle implements Serializable {
 			return listaCidades = cidadeService.findPorIdEstado(id);
 		} catch (Exception e) {
 			UtilErros.getMensagemErro(e);
+			UtilMensagens.mensagemErro("Erro ao selecionar!");
 			return null;
 		}
 	}
@@ -183,10 +192,16 @@ public class PessoaControle implements Serializable {
 	}
 
 	private synchronized boolean salvarUsuario() {
-
+		
+		if(this.tbUsuario.getMatSenha().length() >= 16 && this.tbUsuario.getMatSenha().length() <= 4) {
+			UtilMensagens.mensagemInformacao("senha deve ser maior 5 e menor 16!");
+			PrimeFaces.current().ajax().addCallbackParam("validacaoMat", false);
+			return false;
+		}
+		
 		if (this.tbPessoa.getTipo().equals(TipoEnum.PF)) {
 			if (turmaService.isProfessor(this.tbPessoa)) {
-				UtilMensagens.mensagemInformacao("Professor já existe!!!");
+				UtilMensagens.mensagemInformacao("Professor já existe, primeiro altere o perfil existente!");
 				PrimeFaces.current().ajax().addCallbackParam("validacaoMat", false);
 				return false;
 			} else {
@@ -208,7 +223,8 @@ public class PessoaControle implements Serializable {
 				tbUsuario.setTbPessoa(pessoaSalvar);
 				usuarioService.salvar(this.tbUsuario);
 				tbUsuario.setMatSenha("");
-				UtilMensagens.mensagemInformacao("Professor Salvo ou Alteranda com sucesso!");
+				buscarTodos();
+				UtilMensagens.mensagemInformacao("Professor Salvo/Alternada com sucesso!");
 				PrimeFaces.current().ajax().update(Arrays.asList("form:pessoa-table"));
 				return true;
 			}
@@ -233,32 +249,41 @@ public class PessoaControle implements Serializable {
 				PrimeFaces.current().ajax().update(Arrays.asList("form:pessoa-table"));
 				return true;
 			} else {
-				try {
-					usuarioService.porMatLogin(this.tbUsuario.getMatLogin());
-					UtilMensagens.mensagemInformacao("Error ao cadastrar matrícula já existe!!!");
+				if (usuarioService.porMatLogin(this.tbUsuario.getMatLogin()) != null) {
+
+					UtilMensagens.mensagemInformacao("Erro ao cadastrar matrícula já existe!");
 					PrimeFaces.current().ajax().addCallbackParam("validacaoMat", false);
 					return false;
-				} catch (NoResultException e) {
-					Date data = new Date();
-					this.tbPessoa.setDataCadastro(data);
-					TbPessoa pessoaSalvar = pessoaService.salvar(this.tbPessoa);
-					tbContato.setTbPessoa(pessoaSalvar);
-					contatoService.salvar(this.tbContato);
-					tbEndereco.setTbCidade(this.tbCidade);
-					tbEndereco.setTbPessoa(pessoaSalvar);
-					enderencoService.salvar(this.tbEndereco);
-					tbUsuario.setMatSenha(Sha256.shaSet(this.tbUsuario.getMatSenha()));
-					tbUsuario.setTbPessoa(pessoaSalvar);
-					usuarioService.salvar(this.tbUsuario);
-					tbUsuario.setMatSenha("");
-					buscarTodos();
-					UtilMensagens.mensagemInformacao("Pessoa salva com sucesso!");
-					PrimeFaces.current().ajax().update(Arrays.asList("form:pessoa-table"));
-					return true;
+				} else {
+					try {
+						Date data = new Date();
+						this.tbPessoa.setDataCadastro(data);
+						TbPessoa pessoaSalvar = pessoaService.salvar(this.tbPessoa);
+						tbContato.setTbPessoa(pessoaSalvar);
+						contatoService.salvar(this.tbContato);
+						tbEndereco.setTbCidade(this.tbCidade);
+						tbEndereco.setTbPessoa(pessoaSalvar);
+						enderencoService.salvar(this.tbEndereco);
+						tbUsuario.setMatSenha(Sha256.shaSet(this.tbUsuario.getMatSenha()));
+						tbUsuario.setTbPessoa(pessoaSalvar);
+						usuarioService.salvar(this.tbUsuario);
+						tbUsuario.setMatSenha("");
+						buscarTodos();
+						UtilMensagens.mensagemInformacao("Pessoa salva com sucesso!");
+						PrimeFaces.current().ajax().update(Arrays.asList("form:pessoa-table"));
+						return true;
+
+					} catch (NoResultException e) {
+
+						return true;
+					}
 				}
 			}
+		} else {
+			UtilMensagens.mensagemErro("Erro ao salva!");
+			return false;
 		}
-		return false;
+
 	}
 
 	public void excluir() {
@@ -276,7 +301,7 @@ public class PessoaControle implements Serializable {
 			UtilMensagens.mensagemInformacao("Pessoa excluída com sucesso!");
 		} catch (Exception e) {
 			UtilErros.getMensagemErro(e);
-			UtilMensagens.mensagemErro("Error ao deleta!");
+			UtilMensagens.mensagemErro("Erro ao excluir!");
 		}
 		PrimeFaces.current().ajax().update(Arrays.asList("form:msgs", "form:pessoa-table"));
 	}
@@ -292,8 +317,8 @@ public class PessoaControle implements Serializable {
 	public List<TbEstado> listEstado() {
 		return estadoService.lista();
 	}
-	
-	public List<TipoFaixa> listaFaixas(){
+
+	public List<TipoFaixa> listaFaixas() {
 		return Arrays.asList(TipoFaixa.values());
 	}
 
