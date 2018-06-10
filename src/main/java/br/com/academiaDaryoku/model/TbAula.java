@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,12 +48,12 @@ public class TbAula implements Serializable {
 	@Column(name = "id_aula")
 	private int idAula;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.REFRESH})
 	@JoinColumn(name = "id_turma", referencedColumnName = "id_turma")
 	private TbTurma tbTurma;
 
 	public TbAula() {
-
+		tbTurma = new TbTurma();
 	}
 
 	public TbAula(LocalDate dataAux, LocalTime hrInicio, LocalTime hrFim) {

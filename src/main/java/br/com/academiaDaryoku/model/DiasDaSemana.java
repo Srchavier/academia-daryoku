@@ -1,10 +1,14 @@
 package br.com.academiaDaryoku.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class DiasDaSemana {
+public class DiasDaSemana implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	private boolean dom;
 
 	private boolean qua;

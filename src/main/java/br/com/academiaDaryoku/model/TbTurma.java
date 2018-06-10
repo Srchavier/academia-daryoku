@@ -76,6 +76,8 @@ public class TbTurma implements Serializable {
 	public TbTurma() {
 		tbDiassemana = new TbDiassemana();
 		tbAulas = new ArrayList<>();
+		tbEventos= new ArrayList<>();
+		tbPessoa= new TbPessoa();
 	}
 
 	public int getIdTurma() {

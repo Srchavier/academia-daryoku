@@ -66,12 +66,21 @@ public class RepositoryImpl<T> implements Repository<T> {
 
 	@Override
 	public List<T> find(String jpql, Object... params) {
-		Query query = manager.createQuery(jpql);
+		TypedQuery<T> query = manager.createQuery(jpql, this.clazz);
 		for (int i = 0; i < params.length; i++) {
 			query.setParameter(i + 1, params[i]);
 		}
-		@SuppressWarnings("unchecked")
 		List<T> entities = query.getResultList();
+		return entities;
+	}
+	
+	@Override
+	public T findOne(String jpql, Object... params) {
+		TypedQuery<T> query = manager.createQuery(jpql, this.clazz);
+		for (int i = 0; i < params.length; i++) {
+			query.setParameter(i + 1, params[i]);
+		}
+		T entities = query.getSingleResult();
 		return entities;
 	}
 

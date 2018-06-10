@@ -2,6 +2,7 @@ package br.com.academiaDaryoku.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,7 +43,7 @@ public class TbContato implements Serializable {
 
 	private String tele2;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY,  cascade= {CascadeType.REFRESH})
 	@JoinColumn(name = "tb_pessoa_id_pessoa")
 	private TbPessoa tbPessoa;
 

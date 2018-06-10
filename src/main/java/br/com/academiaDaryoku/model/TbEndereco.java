@@ -2,6 +2,7 @@ package br.com.academiaDaryoku.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,7 +47,7 @@ public class TbEndereco implements Serializable {
 
 	// bi-directional many-to-one association to TbCidade
 	@NotNull(message = "Cidade não pode ser nulo!")
-	@ManyToOne
+	@ManyToOne(cascade= {CascadeType.REFRESH})
 	@JoinColumn(name = "tb_cidade_id_cidade")
 	private TbCidade tbCidade;
 

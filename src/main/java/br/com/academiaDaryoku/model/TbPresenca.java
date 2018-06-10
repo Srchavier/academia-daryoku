@@ -31,14 +31,12 @@ public class TbPresenca implements Serializable {
 	private int idPresenca;
 
 	@Column
-	private byte presenca;
+	private Boolean presenca;
 
-	//bi-directional many-to-one association to TbAula
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_aula", referencedColumnName="id_aula")
 	private TbAula tbAula;
 
-	//bi-directional many-to-one association to TbPessoa
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_pessoa", referencedColumnName="id_pessoa")
 	private TbPessoa tbPessoa;
@@ -68,11 +66,11 @@ public class TbPresenca implements Serializable {
 		return this.tbPessoa;
 	}
 
-	public byte getPresenca() {
+	public Boolean getPresenca() {
 		return presenca;
 	}
 
-	public void setPresenca(byte presenca) {
+	public void setPresenca(Boolean presenca) {
 		this.presenca = presenca;
 	}
 

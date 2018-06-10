@@ -9,4 +9,10 @@ public class PresencaRepository extends RepositoryImpl<TbPresenca> implements Se
 	private static final long serialVersionUID = -2795482879946374047L;
 	
 	
+	public void name() {
+		super.manager
+			.createNativeQuery("");
+	}
+	
+	
 }

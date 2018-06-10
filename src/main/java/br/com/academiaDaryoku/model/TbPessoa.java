@@ -3,6 +3,7 @@ package br.com.academiaDaryoku.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -67,7 +68,7 @@ public class TbPessoa implements Serializable {
 	private TipoFaixa tipoFaixa;
 
 	@NotNull(message = "Informe uma Turma!")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.REFRESH})
 	@JoinColumn(name = "tb_turma_id_turma")
 	private TbTurma tbTurma;
 

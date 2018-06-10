@@ -2,6 +2,7 @@ package br.com.academiaDaryoku.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +44,7 @@ public class TbUsuario implements Serializable {
 
 	// bi-directional one-to-one association to TbPessoa
 	@NotNull
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade= {CascadeType.REFRESH})
 	@JoinColumn(name = "tb_pessoa_id_pessoa")
 	private TbPessoa tbPessoa;
 

@@ -61,12 +61,12 @@
 				value="#{pessoaControle.pessoa}" var="pessoa" rows="10"
 				paginator="true" paginatorPosition="bottom"
 				selection="#{pessoaControle.tbPessoaSelecionada}"
-				selectionMode="single" rowKey="#{pessoa.idPessoa}" reflow="true">
+				selectionMode="single" rowKey="#{pessoa.idPessoa}" reflow="true" clientCache="false">
 
 				<p:ajax event="rowSelect" update="form:toolbar" />
 				<p:ajax event="rowUnselect" update="form:toolbar" />
 
-				<p:column headerText="id">
+				<p:column headerText="id" sortBy="#{pessoa.idPessoa}" filterBy="#{pessoa.idPessoa}">
 					<h:outputText value="#{pessoa.idPessoa}" />
 				</p:column>
 				<p:column headerText="nome">
@@ -80,7 +80,7 @@
 					<h:outputText value="#{pessoa.tbTurma.nome}" />
 				</p:column>
 
-				<p:column headerText="Tipo">
+				<p:column headerText="Tipo" sortBy="#{pessoa.tipo.tipo}" filterBy="#{pessoa.tipo.tipo}">
 					<h:outputText value="#{pessoa.tipo.tipo}" />
 				</p:column>
 

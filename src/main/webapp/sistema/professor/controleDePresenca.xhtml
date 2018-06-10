@@ -5,41 +5,58 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/Layout.xhtml">
 	<ui:define name="content">
-	<h:outputStylesheet library="css" name="cssPagina.css" />
-		<h1 id="cabecalho">Cadastro Usuario</h1>
-
+		<h:outputStylesheet library="css" name="cssPagina.css" />
+		<h1 id="cabecalho">Controle de presença</h1>
 		<h:form id="form">
+			<p:outputLabel value="Turma:" for="turma" />
+			<p:selectOneMenu value="#{presencaControle.turma}" id="turma"
+				converter="#{presencaControle.turmaConverter}" required="true"
+				requiredMessage="Informe uma turma">
+				<f:selectItem itemLabel="Selecione uma turma"
+					noSelectionOption="true" />
+				<f:selectItems value="#{presencaControle.listaTurmaPorIdProf()}"
+					var="turma" itemValue="#{turma}"
+					itemLabel="#{turma.nome.toLowerCase()}" />
+				<p:ajax update="form:aula"
+					listener="#{presencaControle.turmaSelecionada()}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Aula:" for="aula" />
+			<p:selectOneMenu value="#{presencaControle.aula}"
+				converter="#{presencaControle.aulaConverter}" id="aula"
+				required="true" requiredMessage="Informe um aula." filter="true" >
+				<f:selectItem itemLabel="Selecione uma aula" />
+				<f:selectItems value="#{presencaControle.aulasList}" var="aula" itemValue="#{aula}"
+					itemLabel="#{aula.dtAula}" />
+			</p:selectOneMenu>
+
+			<p:commandButton icon="ui-icon-search"
+				update="presenca msgs" title="Dia da semana"
+				action="#{presencaControle.pesquisar()}">
+			</p:commandButton>
+
+
 			<p:growl id="msgs" showDetail="true" />
-			<p:dataTable id="checkboxDT" var="pessoa"
-				value="#{controleDePresenca.listaDeAlunos}"
-				selection="#{controleDePresenca.selectedPessoas}"
-				rowKey="#{pessoa.idPessoa}" style="margin-bottom:0" dynamic="true"
-				editable="true"
+			<p:dataTable id="presenca" var="presenca"
+				value="#{presencaControle.tbpresencaList}" style="margin-bottom:0"
+				dynamic="false"
 				paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
                                {PageLinks} {NextPageLink} {LastPageLink} 
                                {RowsPerPageDropdown}">
 
-				<f:facet name="header">
-            Checkbox
-        </f:facet>
-				<p:column selectionMode="multiple" 
-					style="width:45px;text-align:center" styleClass="selectionCheckBox"
-					toggleable="true"/>
-				<p:column headerText="Id">
-					<h:outputText value="#{pessoa.flSexo}" />
+				<p:column headerText="Nome">
+					<h:outputText value="#{presenca.tbPessoa.nmPessoa}" />
 				</p:column>
-				<p:column headerText="Year">
-					<h:outputText value="#{pessoa.flSexo}" />
+				<p:column headerText="turma">
+					<h:outputText value="#{presenca.tbAula.tbTurma.nome}" />
 				</p:column>
-				<p:column headerText="Brand">
-					<h:outputText value="#{pessoa.flSexo}" />
-				</p:column>
-				<p:column headerText="Color">
-					<h:outputText value="#{pessoa.flSexo}" />
+				<p:column headerText="presença">
+					<p:inputSwitch value="#{presenca.presenca}" />
 				</p:column>
 				<f:facet name="footer">
-					<p:commandButton process="checkboxDT" update="form"
-						icon="ui-icon-search" value="View" />
+					<p:commandButton process="presenca" update="form"
+						icon="ui-icon-check" title="Salvar" value="Salvar"
+						action="#{presencaControle.salvar()}" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>

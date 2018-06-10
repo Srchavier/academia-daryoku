@@ -20,6 +20,7 @@ import br.com.academiaDaryoku.model.DiasDaSemana;
 import br.com.academiaDaryoku.model.TbAula;
 import br.com.academiaDaryoku.model.TbPessoa;
 import br.com.academiaDaryoku.model.TbTurma;
+import br.com.academiaDaryoku.respository.PessoaRepository;
 import br.com.academiaDaryoku.respository.TurmaRepository;
 import br.com.academiaDaryoku.ultils.Transacional;
 import br.com.academiaDaryoku.ultils.UtilMensagens;
@@ -30,6 +31,8 @@ public class TurmaService implements Serializable {
 	
 	@Inject
 	private TurmaRepository turmaRepository;
+	@Inject
+	private PessoaRepository pessoaRepository;
 
 	public Object find(Class<TbTurma> class1, int parseLong) {
 		return turmaRepository.porId(parseLong);
@@ -55,6 +58,16 @@ public class TurmaService implements Serializable {
 		try {
 			List<TbTurma> turmas = turmaRepository.turmaPorIdPessoa(pessoa);
 			return turmas.get(0);
+		} catch (Exception e) {
+			return null;
+		}
+
+	}
+	
+	
+	public List<TbTurma> turmaPorPessoa(TbPessoa pessoa) {
+		try {
+			return turmaRepository.turmaPorIdPessoa(pessoa);
 		} catch (Exception e) {
 			return null;
 		}
@@ -159,6 +172,10 @@ public class TurmaService implements Serializable {
 		}
 
 		return dayOfWeek;
+	}
+
+	public List<TbPessoa> buscarAlunosDaTurma(TbTurma turma) {
+		return pessoaRepository.find("FROM TbPessoa p WHERE p.tbTurma = ? AND p.tipo = 'EST'", turma);
 	}
 
 }

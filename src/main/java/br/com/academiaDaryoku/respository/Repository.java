@@ -23,8 +23,11 @@ public interface Repository<T> {
 
 	public List<T> find(String jpql, Object... params);
 
+	public T findOne(String jpql, Object... params);
+	
 	public List<T> buscaCriteria(FilterAll filter, SingularAttribute<T, String> nmPessoa);
 	
 	public List<T> buscaCriteriaData(FilterAll filter, SingularAttribute<T, Date> nmPessoa);
+
 
 }

@@ -3,6 +3,7 @@ package br.com.academiaDaryoku.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class TbEstado implements Serializable {
 
 	private String sigla;
 
-	@OneToMany(mappedBy = "tbEstado", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "tbEstado", fetch = FetchType.LAZY,  cascade= {CascadeType.REFRESH})
 	private Set<TbCidade> tbCidades;
 
 	public TbEstado() {
