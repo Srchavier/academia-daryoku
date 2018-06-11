@@ -19,7 +19,7 @@ public class ConverterAula implements Converter, Serializable {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String string) {
-		if (string == null || string.equals("Selecione um dia")) {
+		if (string == null || string.equals("Selecione uma aula")) {
 			return null;
 		}
 		return aulaService.find(TbAula.class, Integer.parseInt(string));

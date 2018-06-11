@@ -11,22 +11,43 @@
 		<p>
 			<i class="fa fa-user-circle-o fa-4x" aria-hidden="true"></i>
 		</p>
-		
+
 	</div>
 	<hr class="menuhr" style="border-style: none;" />
-
-	<a class="list-group-item" href="/academia/sistema/Perfil.xhtml"> <i
-		class="fa fa-book fa-fw" aria-hidden="true"></i> Informações Pessoais
-	</a> <a class="list-group-item" href="/academia/sistema/evento.xhtml"> <i
-		class="fa fa-pencil fa-fw" aria-hidden="true"></i> Eventos
-	</a> <a class="list-group-item" href="/academia/sistema/professor/controleDePresenca.xhtml"> <i
-		class="fa fa-cog fa-fw" aria-hidden="true"></i>Controle de Presença
-	</a> <a class="list-group-item" href="/academia/sistema/professor/cadastraEvento.xhtml"> <i
-		class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar evento
-	</a> <a class="list-group-item" href="/academia/sistema/adm/cadastraUsuario.xhtml"> <i
-		class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar usuário
-	</a><a class="list-group-item" href="/academia/sistema/adm/cadastraTurma.xhtml"> <i
-		class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar turma
-	</a>
+	<div>
+		<a class="list-group-item" href="/academia/sistema/Perfil.xhtml">
+			<i class="fa fa-book fa-fw" aria-hidden="true"></i> Informações
+			Pessoais
+		</a>
+	</div>
+	<div>
+		<a class="list-group-item" href="/academia/sistema/evento.xhtml">
+			<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Eventos
+		</a>
+	</div>
+	<div class="#{(controleLogin.usuarioEntity.tbPessoa.tipo == 'PF'||controleLogin.usuarioEntity.tbPessoa.tipo == 'ADM') ? '' : 'hidden'}">
+		<a class="list-group-item"
+			href="/academia/sistema/professor/controleDePresenca.xhtml"> <i
+			class="fa fa-cog fa-fw" aria-hidden="true"></i>Controle de Presença
+		</a>
+	</div>
+	<div class="#{(controleLogin.usuarioEntity.tbPessoa.tipo == 'PF'||controleLogin.usuarioEntity.tbPessoa.tipo == 'ADM') ? '' : 'hidden'}">
+		<a class="list-group-item"
+			href="/academia/sistema/professor/cadastraEvento.xhtml"> <i
+			class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar evento
+		</a>
+	</div>
+	<div class="#{controleLogin.usuarioEntity.tbPessoa.tipo == 'ADM' ? '' : 'hidden'}">
+		<a class="list-group-item"
+			href="/academia/sistema/adm/cadastraUsuario.xhtml"> <i
+			class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar usuário
+		</a>
+	</div>
+	<div class="#{controleLogin.usuarioEntity.tbPessoa.tipo == 'ADM' ? '' : 'hidden'}">
+		<a class="list-group-item"
+			href="/academia/sistema/adm/cadastraTurma.xhtml"> <i
+			class="fa fa-cog fa-fw" aria-hidden="true"></i>Cadastrar turma
+		</a>
+	</div>
 </div>
 </html>

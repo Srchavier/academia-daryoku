@@ -1,5 +1,6 @@
 package br.com.academiaDaryoku.ultils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RepeatPaginator {
@@ -14,6 +15,11 @@ public class RepeatPaginator {
 	private List<?> origModel;
 	private List<?> model;
 
+	public RepeatPaginator(){
+		origModel = new ArrayList<>();
+		model= new ArrayList<>();
+	}
+	
 	public RepeatPaginator(List<?> model) {
 		this.origModel = model;
 		this.records = DEFAULT_RECORDS_NUMBER;

@@ -21,6 +21,7 @@ import br.com.academiaDaryoku.model.TbPessoa;
 import br.com.academiaDaryoku.model.TbPresenca;
 import br.com.academiaDaryoku.model.TbTurma;
 import br.com.academiaDaryoku.model.TbUsuario;
+import br.com.academiaDaryoku.model.TipoEnum;
 import br.com.academiaDaryoku.service.AulaService;
 import br.com.academiaDaryoku.service.PresencaService;
 import br.com.academiaDaryoku.service.TurmaService;
@@ -111,9 +112,15 @@ public class PresencaControle  implements Serializable{
 		}
 	}
 	
-	public List<TbTurma> listaTurmaPorIdProf(){
+	public List<TbTurma> listaTurmaPorIdProf() {
 		usuario = (TbUsuario) SessionContext.getInstance().getAttribute("usuarioLogado");
-		return turmasService.turmaPorPessoa(usuario.getTbPessoa());
+		if(usuario.getTbPessoa().getTipo() == TipoEnum.ADM) {
+			return turmasService.findAll();
+		}else if(usuario.getTbPessoa().getTipo() == TipoEnum.PF){
+			
+			return turmasService.turmaPorPessoa(usuario.getTbPessoa());
+		}
+		return null;
 	}
 
 

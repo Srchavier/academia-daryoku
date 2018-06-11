@@ -66,6 +66,7 @@ public class ScheduleView implements Serializable {
 
 		listaEventos = new ArrayList<>();
 		listaTodos();
+		paginator = new RepeatPaginator();
 		paginator = new RepeatPaginator(this.listaEventos);
 	}
 

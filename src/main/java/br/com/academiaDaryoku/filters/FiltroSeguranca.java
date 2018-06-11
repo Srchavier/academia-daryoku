@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.academiaDaryoku.model.TbUsuario;
+import br.com.academiaDaryoku.model.TipoEnum;
+import br.com.academiaDaryoku.ultils.UtilErros;
 
 @WebFilter("/sistema/*")
 public class FiltroSeguranca implements Filter {
@@ -33,7 +35,43 @@ public class FiltroSeguranca implements Filter {
 
 		if (sessao != null) {
 			usuarioEntity = (TbUsuario) sessao.getAttribute("usuarioLogado");
+			
+			if (usuarioEntity != null) {
+
+				HttpServletResponse httpResponse = (HttpServletResponse) response;
+				HttpServletRequest httpRequest = (HttpServletRequest) request;
+				String pagina = httpRequest.getRequestURL().toString();
+				String contextPath = ((HttpServletRequest) request).getContextPath();
+
+				if (pagina.contains("/academia/sistema/adm")) {
+					if (usuarioEntity.getTbPessoa().getTipo() != TipoEnum.ADM) {
+
+						try {
+							httpResponse.sendRedirect(contextPath + "/errorPaginas/erro401.xhtml");
+							httpResponse.setStatus(401);
+
+						} catch (Exception e) {
+							UtilErros.getMensagemErro(e);
+						}
+					}
+				}
+
+				if (pagina.contains("/academia/sistema/professor")) {
+					if (usuarioEntity.getTbPessoa().getTipo() != TipoEnum.PF
+							&& usuarioEntity.getTbPessoa().getTipo() != TipoEnum.ADM) {
+
+						try {
+							httpResponse.sendRedirect(contextPath + "/errorPaginas/erro401.xhtml");
+							httpResponse.setStatus(401);
+
+						} catch (IllegalStateException e) {
+							UtilErros.getMensagemErro(e);
+						}
+					}
+				}
+			}
 		}
+		
 		if (usuarioEntity == null) {
 			String contextPath = ((HttpServletRequest) request).getContextPath();
 			((HttpServletResponse) response).sendRedirect(contextPath + "/login/login.xhtml");

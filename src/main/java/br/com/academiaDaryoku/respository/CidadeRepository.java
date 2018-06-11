@@ -1,10 +1,14 @@
 package br.com.academiaDaryoku.respository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import br.com.academiaDaryoku.model.TbCidade;
 
-public class CidadeRepository extends RepositoryImpl<TbCidade> {
+public class CidadeRepository extends RepositoryImpl<TbCidade> implements Serializable {
+
+
+	private static final long serialVersionUID = -2440755556804045088L;
 
 	public List<TbCidade> findPorIdEstado(int id) {
 		try {

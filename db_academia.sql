@@ -59,10 +59,10 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_academia`.`tb_pessoa` (
   `id_pessoa` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'CÓDIGO DA PESSOA',
-  `nm_pessoa` VARCHAR(120) CHARACTER SET 'latin1' NOT NULL COMMENT 'NOME DA PESSOA',
+  `nm_pessoa` VARCHAR(50) CHARACTER SET 'latin1' NOT NULL COMMENT 'NOME DA PESSOA',
   `fl_sexo` ENUM('M', 'F') CHARACTER SET 'latin1' COLLATE 'latin1_german1_ci' NOT NULL COMMENT 'INFORMAR M OU F',
   `dt_nascimento` DATE NOT NULL COMMENT 'DATA DE CADASTRO DO REGISTRO',
-  `foto` LONGBLOB NULL DEFAULT NULL COMMENT 'foto',
+  `foto` VARCHAR(50) NULL DEFAULT NULL COMMENT 'foto',
   `tipo` ENUM('ADM', 'EST', 'PF') CHARACTER SET 'latin1' NOT NULL COMMENT 'DESCRIÇÃO DO nivel ',
   `cpf` VARCHAR(14) CHARACTER SET 'latin1' COLLATE 'latin1_bin' NULL DEFAULT NULL,
   `dataCadastro` DATE NULL DEFAULT NULL COMMENT 'data cadastro',
@@ -83,8 +83,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_academia`.`tb_contato` (
   `id_contato` INT(11) NOT NULL AUTO_INCREMENT,
-  `tele1` VARCHAR(45) NOT NULL,
-  `tele2` VARCHAR(45) NULL DEFAULT NULL,
+  `tele1` VARCHAR(15) NOT NULL,
+  `tele2` VARCHAR(15) NULL DEFAULT NULL,
   `email` VARCHAR(45) NOT NULL,
   `tb_pessoa_id_pessoa` INT(11) NOT NULL,
   PRIMARY KEY (`id_contato`),
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_evento` (
   `nome` VARCHAR(45) NOT NULL,
   `dateInicil` DATETIME NOT NULL,
   `dateFim` DATETIME NOT NULL,
-  `descricao` VARCHAR(1000) NOT NULL,
+  `descricao` VARCHAR(800) NOT NULL,
   `subTitulo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_Evento`))
 ENGINE = InnoDB
@@ -184,6 +184,10 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 35
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- alteração
+-- -----------------------------------------------------
+
 ALTER TABLE `db_academia`.`tb_turma` 
 ADD INDEX `fk_tb_turma_tb_pessoa1_idx` (`tb_pessoa_id_pessoa` ASC);
  
@@ -197,6 +201,10 @@ ALTER TABLE `db_academia`.`tb_turma`
 ALTER TABLE `db_academia`.`tb_pessoa` 
 	CHANGE COLUMN `foto` `foto` VARCHAR(50) NULL DEFAULT NULL COMMENT 'foto' ;
 	
+-- -----------------------------------------------------
+-- tabela dias da semana
+-- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `db_academia`.`tb_diasSemana` (
   `id_diasSemana` SMALLINT(5) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_diasSemana`),
@@ -213,6 +221,9 @@ ALTER TABLE `db_academia`.`tb_turma`
 ADD COLUMN `id_diasSemana` SMALLINT(5) NOT NULL AFTER `tb_pessoa_id_pessoa`,
 ADD INDEX `fk_tb_turma_tb_diassemana1_idx` (`id_diasSemana` ASC);
 ;
+-- -----------------------------------------------------
+-- alteração
+-- -----------------------------------------------------
 
 ALTER TABLE `db_academia`.`tb_turma` 
 ADD CONSTRAINT `fk_tb_turma_tb_diassemana1`
@@ -220,6 +231,11 @@ ADD CONSTRAINT `fk_tb_turma_tb_diassemana1`
   REFERENCES `db_academia`.`tb_diassemana` (`id_diasSemana`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+  
+ -- -----------------------------------------------------
+-- tabela aula
+-- -----------------------------------------------------
+ 
     
 CREATE TABLE IF NOT EXISTS `db_academia`.`tb_aula` ( id_aula INT UNSIGNED NOT NULL AUTO_INCREMENT,
           dt_aula DATE NOT NULL,
@@ -228,12 +244,16 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_aula` ( id_aula INT UNSIGNED NOT NU
           PRIMARY KEY (id_aula)
         )
         ENGINE = InnoDB
-        DEFAULT CHARACTER SET = utf8 
+        DEFAULT CHARACTER SET = utf8         
             
 ALTER TABLE `db_academia`.`tb_aula` 
 ADD COLUMN `tb_turma_id_turma` INT(11) NOT NULL AFTER `hr_fim`,
 ADD INDEX `fk_tb_aula_tb_turma1_idx` (`tb_turma_id_turma` ASC);
 ;
+
+-- -----------------------------------------------------
+-- alteração
+-- -----------------------------------------------------
 
 ALTER TABLE `db_academia`.`tb_aula` 
 ADD CONSTRAINT `fk_tb_aula_tb_turma1`
@@ -271,6 +291,10 @@ ADD CONSTRAINT `fk_tb_turma_tb_diassemana1`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION; 
   
+-- -----------------------------------------------------
+-- tabela presença
+-- -----------------------------------------------------
+  
 CREATE TABLE IF NOT EXISTS `db_academia`.`tb_presenca` (
   `id_presenca` INT(11) NOT NULL AUTO_INCREMENT,
   `id_aula` INT(10) UNSIGNED NOT NULL,
@@ -292,9 +316,22 @@ CREATE TABLE IF NOT EXISTS `db_academia`.`tb_presenca` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- alteração
+-- -----------------------------------------------------
+
 ALTER TABLE `db_academia`.`tb_pessoa` 
 ADD COLUMN `tipoFaixa` ENUM('A', 'VER', 'L', 'VERD', 'R', 'M', 'P') NULL DEFAULT NULL AFTER `tb_turma_id_turma`;
 
+-- -----------------------------------------------------
+-- dados cidade
+-- -----------------------------------------------------
 
+INSERT INTO `tb_estado` VALUES (11,'RONDONIA','RO'),(12,'ACRE','AC'),(13,'AMAZONAS','AM'),(14,'RORAIMA','RR'),(15,'PARÁ','PA'),(16,'AMAPÁ','AP'),(17,'TOCANTINS','TO'),(21,'MARANHÃO','MA'),(22,'PIAUÍ','PI'),(23,'CEARÁ','CE'),(24,'RIO GRANDE DO NORTE','RN'),(25,'PARAÍBA','PB'),(26,'PERNAMBUCO','PE'),(27,'ALAGOAS','AL'),(28,'SERGIPE','SE'),(29,'BAHIA','BA'),(31,'MINAS GERAIS','MG'),(32,'ESPÍRITO SANTO','ES'),(33,'RIO DE JANEIRO','RJ'),(35,'SÃO PAULO','SP'),(41,'PARANÁ','PR'),(42,'SANTA CATARINA','SC'),(43,'RIO GRANDE DO SUL','RS'),(50,'MATO GROSSO DO SUL','MS'),(51,'MATO GROSSO','MT'),(52,'GOIÁS','GO'),(53,'DISTRITO FEDERAL','DF');
 
+-- -----------------------------------------------------
+-- dados estados
+-- -----------------------------------------------------
+
+INSERT INTO `tb_estado` VALUES (11,'RONDONIA','RO'),(12,'ACRE','AC'),(13,'AMAZONAS','AM'),(14,'RORAIMA','RR'),(15,'PARÁ','PA'),(16,'AMAPÁ','AP'),(17,'TOCANTINS','TO'),(21,'MARANHÃO','MA'),(22,'PIAUÍ','PI'),(23,'CEARÁ','CE'),(24,'RIO GRANDE DO NORTE','RN'),(25,'PARAÍBA','PB'),(26,'PERNAMBUCO','PE'),(27,'ALAGOAS','AL'),(28,'SERGIPE','SE'),(29,'BAHIA','BA'),(31,'MINAS GERAIS','MG'),(32,'ESPÍRITO SANTO','ES'),(33,'RIO DE JANEIRO','RJ'),(35,'SÃO PAULO','SP'),(41,'PARANÁ','PR'),(42,'SANTA CATARINA','SC'),(43,'RIO GRANDE DO SUL','RS'),(50,'MATO GROSSO DO SUL','MS'),(51,'MATO GROSSO','MT'),(52,'GOIÁS','GO'),(53,'DISTRITO FEDERAL','DF');
 
