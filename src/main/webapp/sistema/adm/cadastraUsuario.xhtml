@@ -182,11 +182,11 @@
 							<p:outputLabel value="Telefone 1:" for="telefone1" />
 							<p:inputMask mask="(99)9 9999-9999" id="telefone1"
 								value="#{pessoaControle.tbContato.tele1}"
-								requiredMessage="Informe o telefone." required="true" />
+								requiredMessage="Informe o telefone." required="true"><f:converter  converterId="telefoneConvert"/></p:inputMask>
 
 							<p:outputLabel value="Telefone 2:" for="telefone2" />
 							<p:inputMask mask="(99)9 9999-9999" id="telefone2"
-								value="#{pessoaControle.tbContato.tele2}" />
+								value="#{pessoaControle.tbContato.tele2}" ><f:converter  converterId="telefoneConvert"/></p:inputMask>
 
 							<p:outputLabel value="E-mail:" for="email" />
 							<p:inputText id="email" value="#{pessoaControle.tbContato.email}"

@@ -30,30 +30,29 @@ import br.com.academiaDaryoku.ultils.UtilMensagens;
 
 @Named("presencaControle")
 @ViewScoped
-public class PresencaControle  implements Serializable{
+public class PresencaControle implements Serializable {
 
 	private static final long serialVersionUID = -336018689139447199L;
 
-	
 	private List<TbPresenca> tbpresencaList;
 	private TbAula aula;
 	private TbTurma turma;
 	private TbUsuario usuario;
 	private List<TbAula> aulasList;
 	private List<TbPessoa> alunos;
-	
+
 	@Inject
 	private PresencaService presencaService;
-	
+
 	@Inject
 	private TurmaService turmasService;
-	
+
 	@Inject
 	private AulaService aulaService;
-	
+
 	@Inject
 	private ConverterTurma turmaConverter;
-	
+
 	@Inject
 	private ConverterAula aulaConverter;
 
@@ -65,7 +64,6 @@ public class PresencaControle  implements Serializable{
 		usuario = new TbUsuario();
 	}
 
-	
 	public void pesquisar() {
 		this.tbpresencaList = new ArrayList<>();
 		this.alunos.forEach(aluno -> {
@@ -80,29 +78,40 @@ public class PresencaControle  implements Serializable{
 			}
 			this.tbpresencaList.add(presenca);
 		});
-		
-		if(this.aula != null) {
-//			tbpresencaList = presencaService.pesquisarPorTurma(this.aula, this.turma);
-			UtilMensagens.mensagemInformacao(alunos.size()+" encontrado!");
-		}else {
-			UtilMensagens.mensagemInformacao("Não "+aula.getDtAula()+" encontrado");
+
+		if (this.aula != null) {
+			// tbpresencaList = presencaService.pesquisarPorTurma(this.aula, this.turma);
+			if(aula.equals(null)){
+				UtilMensagens.mensagemInformacao("Não existe aulas nessa turma!");
+			} {
+				
+			}
+		} else {
+			UtilMensagens.mensagemInformacao("Não " + aula.getDtAula() + " encontrado");
 		}
 		PrimeFaces.current().ajax().update(Arrays.asList("form:msgs", "form"));
-		
-	}
-	
-	public void salvar() {
-		try {
-			tbpresencaList.forEach(a -> presencaService.salvar(a));
-		
-		} catch (Exception e) {
-			UtilMensagens.mensagemErro("Erro ao salvar!");
-			UtilErros.getMensagemErro(e);
-		}
-		
+
 	}
 
-	public void turmaSelecionada(){
+	public void salvar() {
+		if (tbpresencaList.isEmpty()) {
+			UtilMensagens.mensagemInformacao("Selecione uma aula!");
+			PrimeFaces.current().ajax().update(Arrays.asList("form:msgs", "form"));
+		} else {
+
+			try {
+				tbpresencaList.forEach(a -> presencaService.salvar(a));
+				UtilMensagens.mensagemInformacao("Presença salvo com sucesso!");
+				PrimeFaces.current().ajax().update(Arrays.asList("form:msgs", "form"));
+			} catch (Exception e) {
+				UtilMensagens.mensagemErro("Erro ao salvar!");
+				UtilErros.getMensagemErro(e);
+			}
+		}
+
+	}
+
+	public void turmaSelecionada() {
 		try {
 			this.aulasList = aulaService.findPorIdTurma(turma.getIdTurma());
 			this.alunos = turmasService.buscarAlunosDaTurma(this.turma);
@@ -111,86 +120,72 @@ public class PresencaControle  implements Serializable{
 			UtilMensagens.mensagemErro("Erro ao selecionar!");
 		}
 	}
-	
+
 	public List<TbTurma> listaTurmaPorIdProf() {
 		usuario = (TbUsuario) SessionContext.getInstance().getAttribute("usuarioLogado");
-		if(usuario.getTbPessoa().getTipo() == TipoEnum.ADM) {
+		if (usuario.getTbPessoa().getTipo() == TipoEnum.ADM) {
 			return turmasService.findAll();
-		}else if(usuario.getTbPessoa().getTipo() == TipoEnum.PF){
-			
+		} else if (usuario.getTbPessoa().getTipo() == TipoEnum.PF) {
+
 			return turmasService.turmaPorPessoa(usuario.getTbPessoa());
 		}
 		return null;
 	}
 
-
 	public List<TbPresenca> getTbpresencaList() {
 		return tbpresencaList;
 	}
-
 
 	public TbAula getAula() {
 		return aula;
 	}
 
-
 	public void setAula(TbAula aula) {
 		this.aula = aula;
 	}
-
 
 	public TbTurma getTurma() {
 		return turma;
 	}
 
-
 	public void setTurma(TbTurma turma) {
 		this.turma = turma;
 	}
-
 
 	public TbUsuario getUsuario() {
 		return usuario;
 	}
 
-
 	public void setUsuario(TbUsuario usuario) {
 		this.usuario = usuario;
 	}
-
 
 	public List<TbAula> getAulasList() {
 		return aulasList;
 	}
 
-
 	public void setAulasList(List<TbAula> aulasList) {
 		this.aulasList = aulasList;
 	}
-
 
 	public ConverterTurma getTurmaConverter() {
 		return turmaConverter;
 	}
 
-
 	public void setTurmaConverter(ConverterTurma turmaConverter) {
 		this.turmaConverter = turmaConverter;
 	}
-
 
 	public ConverterAula getAulaConverter() {
 		return aulaConverter;
 	}
 
-
 	public void setAulaConverter(ConverterAula aulaConverter) {
 		this.aulaConverter = aulaConverter;
 	}
 
-
 	public void setTbpresencaList(List<TbPresenca> tbpresencaList) {
 		this.tbpresencaList = tbpresencaList;
 	}
-	
+
 }
