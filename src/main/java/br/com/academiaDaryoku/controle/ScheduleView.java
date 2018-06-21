@@ -25,7 +25,6 @@ import br.com.academiaDaryoku.model.TbEvento;
 import br.com.academiaDaryoku.model.TbTurma;
 import br.com.academiaDaryoku.service.EventoService;
 import br.com.academiaDaryoku.service.TurmaService;
-import br.com.academiaDaryoku.ultils.RepeatPaginator;
 import br.com.academiaDaryoku.ultils.Transacional;
 import br.com.academiaDaryoku.ultils.UtilMensagens;
 
@@ -45,8 +44,6 @@ public class ScheduleView implements Serializable {
 
 	private List<TbEvento> listaEventos;
 
-	private RepeatPaginator paginator;
-
 	@Inject
 	private ConverterTurma converterTurma;
 
@@ -65,9 +62,7 @@ public class ScheduleView implements Serializable {
 		buscarTodos();
 
 		listaEventos = new ArrayList<>();
-		listaTodos();
-		paginator = new RepeatPaginator();
-		paginator = new RepeatPaginator(this.listaEventos);
+		listaEventos = eventoService.listarMostrarLimit();
 	}
 
 	private void buscarTodos() {
@@ -164,10 +159,6 @@ public class ScheduleView implements Serializable {
 		return turmaService.findAll();
 	}
 
-	public List<TbEvento> listaTodos() {
-		return this.listaEventos = eventoService.listarMostrarLimit();
-	}
-
 	public ConverterTurma getConverterTurma() {
 		return converterTurma;
 	}
@@ -184,8 +175,5 @@ public class ScheduleView implements Serializable {
 		this.listaEventos = listaEventos;
 	}
 
-	public RepeatPaginator getRepeatPaginator() {
-		return paginator;
-	}
 
 }

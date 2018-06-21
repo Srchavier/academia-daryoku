@@ -58,7 +58,8 @@
 										<p:calendar id="hrInicio" value="#{turmaControle.hrInicio}"
 											timeOnly="true" pattern="HH:mm" mask="true"
 											showButtonPanel="true" showTodayButton="false"
-											required="true" requiredMessage="Hora de Fim é obrigatório." converter="#{turmaControle.localConverter}">
+											required="true" requiredMessage="Hora de Fim é obrigatório."
+											converter="#{turmaControle.localConverter}">
 										</p:calendar>
 
 									</div>
@@ -67,8 +68,9 @@
 										<p:calendar id="hrFim" value="#{turmaControle.hrFim}"
 											timeOnly="true" pattern="HH:mm" mask="true"
 											showButtonPanel="true" showTodayButton="false"
-											required="true" requiredMessage="Hora de Fim é obrigatório." converter="#{turmaControle.localConverter}">
-							
+											required="true" requiredMessage="Hora de Fim é obrigatório."
+											converter="#{turmaControle.localConverter}">
+
 										</p:calendar>
 									</div>
 								</div>
@@ -129,7 +131,7 @@
 					<p:commandButton id="bottomMargin" value="Salvar"
 						action="#{turmaControle.salvaTurma()}"
 						style="margin-top:10px; margin-bottom: 10px;"
-						update="idTurma msgsTurma"  oncomplete="if (args.validacaoMat)"/>
+						update="idTurma msgsTurma" oncomplete="if (args.validacaoMat)" />
 				</p:panelGrid>
 			</div>
 			<br></br>
@@ -159,7 +161,8 @@
 						value="#{turmaControle.turmas}" var="turma" rows="10"
 						paginator="true" paginatorPosition="bottom"
 						selection="#{turmaControle.turmaSelecionada}"
-						selectionMode="single" rowKey="#{turma.idTurma}" reflow="true" clientCache="false">
+						selectionMode="single" rowKey="#{turma.idTurma}" reflow="true"
+						clientCache="false">
 
 						<p:ajax event="rowSelect" update="form:lista:toolbar" />
 						<p:ajax event="rowUnselect" update="form:lista:toolbar" />
@@ -167,16 +170,21 @@
 						<p:column headerText="id" sortBy="#{turma.idTurma}">
 							<h:outputText value="#{turma.idTurma}" />
 						</p:column>
-						<p:column headerText="nome" sortBy="#{turma.nome}" filterBy="#{turma.nome}">
+						<p:column headerText="nome" sortBy="#{turma.nome}"
+							filterBy="#{turma.nome}">
 							<h:outputText value="#{turma.nome}" />
 						</p:column>
 
 						<p:column headerText="data início">
-							<h:outputText value="#{turma.dtInicio}" />
+							<h:outputText value="#{turma.dtInicio}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
 						</p:column>
 
 						<p:column headerText="data fim">
-							<h:outputText value="#{turma.dtFim}" />
+							<h:outputText value="#{turma.dtFim}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime></h:outputText>
+						
 						</p:column>
 					</p:dataTable>
 
@@ -190,7 +198,7 @@
 						<p:defaultCommand target="salvar-button" scope="turmaDialog" />
 
 						<p:panelGrid id="pnlPessoaDialog1" columns="2" layout="grid"
-							styleClass="ui-panelgrid-blank" >
+							styleClass="ui-panelgrid-blank">
 							<p:outputLabel value="Nome:" for="nome" />
 							<p:inputText id="nome" value="#{turmaControle.tbTurma.nome}"
 								required="true" requiredMessage="Campo nome é obrigatório."

@@ -92,6 +92,7 @@ public class TurmaService implements Serializable {
 	@Transacional
 	public void salvar(TbTurma tbTurma, LocalTime hrInicio, LocalTime hrFim) {
 		if (gerarTurmas(tbTurma, hrInicio, hrFim)) {
+			tbTurma.setTbPessoa(null);
 			turmaRepository.salva(tbTurma);
 		}else {
 			PrimeFaces.current().ajax().addCallbackParam("validacaoMat",false);

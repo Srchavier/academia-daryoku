@@ -10,10 +10,10 @@
 	<h:outputStylesheet library="css" name="cssPagina.css" />
 		<h1 class="aw-page-title" id="cabecalho">Eventos</h1>
 		<h:form id="form">
-			<p:repeat var="list" value="#{scheduleView.repeatPaginator.model}">
+			<h:outputText value="Ainda não tem eventos para sua turma!" rendered="#{scheduleView.listaEventos == null}"/>
+			<p:repeat var="list" value="#{scheduleView.listaEventos}">
 				<div class="card-block well">
 					<div class="row">
-
 						<div class="col-lg-4 ">
 							<ul class="list-group">
 								<li class="list-group-item"><span class="badge"><p:outputLabel
@@ -43,16 +43,6 @@
 					</div>
 				</div>
 			</p:repeat>
-			<center>
-				<h:commandButton value="&lt; voltar"
-					action="#{scheduleView.repeatPaginator.prev}" />
-				<h:outputText
-					value="#{scheduleView.repeatPaginator.pageIndex} / #{scheduleView.repeatPaginator.pages}" />
-				<h:commandButton value="próxima &gt;"
-					action="#{scheduleView.repeatPaginator.next}"
-					disabled="#{scheduleView.repeatPaginator.pages == scheduleView.repeatPaginator.pageIndex}" />
-				<h:inputHidden value="#{scheduleView.repeatPaginator.pageIndex}" />
-			</center>
 			<br />
 		</h:form>
 
