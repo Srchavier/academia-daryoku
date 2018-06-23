@@ -31,8 +31,18 @@ public class RepositoryImpl<T> implements Repository<T> {
 
 	@Override
 	public T salva(T entity) {
-		entity = this.manager.merge(entity);
-		return entity;
+		boolean criador = false;
+		try {
+			entity = this.manager.merge(entity);
+			return entity;
+			
+		} catch (Exception e) {
+			if (entity != null) {
+				this.manager.remove(entity);
+				return entity;
+			}
+		}
+		return entity; 
 	}
 
 	@Override

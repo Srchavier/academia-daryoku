@@ -58,15 +58,17 @@
 
 			<p:dataTable id="pessoa-table" style="margin-top: 10px;"
 				emptyMessage="Nenhuma pessoa cadastrada."
-				value="#{pessoaControle.pessoa}" var="pessoa" rows="10"
+				value="#{pessoaControle.pessoa}" var="pessoa" rows="8"
 				paginator="true" paginatorPosition="bottom"
 				selection="#{pessoaControle.tbPessoaSelecionada}"
-				selectionMode="single" rowKey="#{pessoa.idPessoa}" reflow="true" clientCache="false">
+				selectionMode="single" rowKey="#{pessoa.idPessoa}" reflow="true"
+				clientCache="false">
 
 				<p:ajax event="rowSelect" update="form:toolbar" />
 				<p:ajax event="rowUnselect" update="form:toolbar" />
 
-				<p:column headerText="id" sortBy="#{pessoa.idPessoa}" filterBy="#{pessoa.idPessoa}">
+				<p:column headerText="id" sortBy="#{pessoa.idPessoa}"
+					filterBy="#{pessoa.idPessoa}">
 					<h:outputText value="#{pessoa.idPessoa}" />
 				</p:column>
 				<p:column headerText="nome">
@@ -74,13 +76,16 @@
 				</p:column>
 
 				<p:column headerText="data nascimento">
-					<h:outputText value="#{pessoa.dtNascimento}" />
+					<h:outputText value="#{pessoa.dtNascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+					</h:outputText>
 				</p:column>
 				<p:column headerText="Turma">
 					<h:outputText value="#{pessoa.tbTurma.nome}" />
 				</p:column>
 
-				<p:column headerText="Tipo" sortBy="#{pessoa.tipo.tipo}" filterBy="#{pessoa.tipo.tipo}">
+				<p:column headerText="Tipo" sortBy="#{pessoa.tipo.tipo}"
+					filterBy="#{pessoa.tipo.tipo}">
 					<h:outputText value="#{pessoa.tipo.tipo}" />
 				</p:column>
 
@@ -182,11 +187,15 @@
 							<p:outputLabel value="Telefone 1:" for="telefone1" />
 							<p:inputMask mask="(99)9 9999-9999" id="telefone1"
 								value="#{pessoaControle.tbContato.tele1}"
-								requiredMessage="Informe o telefone." required="true"><f:converter  converterId="telefoneConvert"/></p:inputMask>
+								requiredMessage="Informe o telefone." required="true">
+								<f:converter converterId="telefoneConvert" />
+							</p:inputMask>
 
 							<p:outputLabel value="Telefone 2:" for="telefone2" />
 							<p:inputMask mask="(99)9 9999-9999" id="telefone2"
-								value="#{pessoaControle.tbContato.tele2}" ><f:converter  converterId="telefoneConvert"/></p:inputMask>
+								value="#{pessoaControle.tbContato.tele2}">
+								<f:converter converterId="telefoneConvert" />
+							</p:inputMask>
 
 							<p:outputLabel value="E-mail:" for="email" />
 							<p:inputText id="email" value="#{pessoaControle.tbContato.email}"
@@ -216,7 +225,8 @@
 
 							<p:outputLabel value="Estado:" for="estado" />
 							<p:selectOneMenu value="#{pessoaControle.tbEstado}" id="estado"
-								converter="#{pessoaControle.converterEstado}" required="true" requiredMessage="Informe um estado">
+								converter="#{pessoaControle.converterEstado}" required="true"
+								requiredMessage="Informe um estado" filter="true">
 								<f:selectItem itemLabel="Selecione estado"
 									noSelectionOption="true" />
 								<f:selectItems value="#{pessoaControle.listEstado()}"
@@ -229,7 +239,8 @@
 							<p:outputLabel value="Cidade:" for="cidade" />
 							<p:selectOneMenu value="#{pessoaControle.tbCidade}"
 								converter="#{pessoaControle.converterCidade}" id="cidade"
-								required="true" requiredMessage="Informe um cidade.">
+								required="true" requiredMessage="Informe um cidade."
+								filter="true">
 								<f:selectItem itemLabel="Selecione a cidade" />
 								<f:selectItems value="#{pessoaControle.listaCidades}" />
 							</p:selectOneMenu>

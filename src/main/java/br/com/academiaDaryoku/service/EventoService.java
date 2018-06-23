@@ -7,9 +7,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.academiaDaryoku.converter.ScheduleEventConverter;
+import br.com.academiaDaryoku.filters.SessionContext;
 import br.com.academiaDaryoku.model.EventoScheduleModel;
 import br.com.academiaDaryoku.model.TbEvento;
+import br.com.academiaDaryoku.model.TbPessoa;
+import br.com.academiaDaryoku.model.TbUsuario;
 import br.com.academiaDaryoku.respository.EventoRepository;
+import br.com.academiaDaryoku.respository.PessoaRepository;
 import br.com.academiaDaryoku.ultils.Transacional;
 
 public class EventoService implements Serializable {
@@ -18,6 +22,9 @@ public class EventoService implements Serializable {
 
 	@Inject
 	private EventoRepository eventoRepository;
+	
+	@Inject
+	private PessoaRepository pessoaRepository;
 
 	@Transacional
 	public TbEvento save(TbEvento tbEvento) {
@@ -34,7 +41,9 @@ public class EventoService implements Serializable {
 	}
 
 	public List<TbEvento> listarMostrarLimit() {
-		return eventoRepository.todosMostrarLimit10();
+		TbUsuario usuarioEntity = (TbUsuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		TbPessoa pessoa = pessoaRepository.porId(usuarioEntity.getTbPessoa().getIdPessoa());
+		return eventoRepository.todosMostrarLimit10(pessoa.getTbTurma().getIdTurma());
 	}
 
 	public List<EventoScheduleModel> listarEventos() {
