@@ -10,7 +10,7 @@
 	<h:outputStylesheet library="css" name="cssPagina.css" />
 		<h1 class="aw-page-title" id="cabecalho">Eventos</h1>
 		<h:form id="form">
-			<h:outputText value="Ainda não tem eventos para sua turma!" rendered="#{scheduleView.listaEventos == null}"/>
+			<h:outputText value="Ainda não tem eventos para sua turma!" rendered="#{scheduleView.listaEventos.size() == 0}"/>
 			<p:repeat var="list" value="#{scheduleView.listaEventos}">
 				<div class="card-block well">
 					<div class="row">
