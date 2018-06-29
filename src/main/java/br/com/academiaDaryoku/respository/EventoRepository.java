@@ -3,10 +3,7 @@ package br.com.academiaDaryoku.respository;
 import java.io.Serializable;
 import java.util.List;
 
-import br.com.academiaDaryoku.filters.SessionContext;
 import br.com.academiaDaryoku.model.TbEvento;
-import br.com.academiaDaryoku.model.TbPessoa;
-import br.com.academiaDaryoku.model.TbUsuario;
 import br.com.academiaDaryoku.ultils.UtilErros;
 
 public class EventoRepository extends RepositoryImpl<TbEvento> implements Serializable {
@@ -35,7 +32,20 @@ public class EventoRepository extends RepositoryImpl<TbEvento> implements Serial
 			UtilErros.getMensagemErro(e);
 			return null;
 		}
-
 	}
+
+		@SuppressWarnings("unchecked")
+		public List<TbEvento> todosEventosLimite10() {
+				try {
+				return super.manager
+						.createNativeQuery("SELECT e.* FROM tb_evento AS e "
+								+ "ORDER BY e.dateInicil DESC", TbEvento.class)
+						.setMaxResults(10).getResultList();
+
+			} catch (Exception e) {
+				UtilErros.getMensagemErro(e);
+				return null;
+			}
+		}
 
 }

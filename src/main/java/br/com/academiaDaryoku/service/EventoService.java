@@ -12,6 +12,7 @@ import br.com.academiaDaryoku.model.EventoScheduleModel;
 import br.com.academiaDaryoku.model.TbEvento;
 import br.com.academiaDaryoku.model.TbPessoa;
 import br.com.academiaDaryoku.model.TbUsuario;
+import br.com.academiaDaryoku.model.TipoEnum;
 import br.com.academiaDaryoku.respository.EventoRepository;
 import br.com.academiaDaryoku.respository.PessoaRepository;
 import br.com.academiaDaryoku.ultils.Transacional;
@@ -42,6 +43,13 @@ public class EventoService implements Serializable {
 
 	public List<TbEvento> listarMostrarLimit() {
 		TbUsuario usuarioEntity = (TbUsuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		List<TbEvento> lista = new ArrayList<>();
+		if(usuarioEntity.getTbPessoa().getTbTurma() == null || usuarioEntity.getTbPessoa().getTipo().equals(TipoEnum.ADM)) {
+			if( (lista = eventoRepository.todosEventosLimite10()) == null) {
+				return null;
+			}
+			return lista;
+		}
 		TbPessoa pessoa = pessoaRepository.porId(usuarioEntity.getTbPessoa().getIdPessoa());
 		return eventoRepository.todosMostrarLimit10(pessoa.getTbTurma().getIdTurma());
 	}
