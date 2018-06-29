@@ -67,6 +67,8 @@ public class PessoaControle implements Serializable {
 	private List<TbPessoa> pessoa;
 
 	private List<TbCidade> listaCidades;
+	
+	private TipoEnum tipo;
 
 	@Inject
 	private PessoaService pessoaService;
@@ -155,6 +157,7 @@ public class PessoaControle implements Serializable {
 
 	public void setTbPessoaSelecionada(TbPessoa tbPessoaSelecionada) {
 		this.tbPessoaSelecionada = tbPessoaSelecionada;
+		this.tipo = tbPessoaSelecionada.getTipo();
 	}
 
 	public void editarPessoa() {
@@ -200,12 +203,12 @@ public class PessoaControle implements Serializable {
 		}
 		
 		if (this.tbPessoa.getTipo().equals(TipoEnum.PF)) {
-			if (turmaService.isProfessor(this.tbPessoa)) {
+			if (turmaService.isProfessor(this.tbPessoa) && tbPessoa.getTipo() != tipo) {
 				UtilMensagens.mensagemInformacao("Professor já existe, primeiro altere o perfil existente!");
 				PrimeFaces.current().ajax().addCallbackParam("validacaoMat", false);
 				return false;
 			} else {
-				if (tbPessoa.getDataCadastro() == null) {
+				if (tbPessoa.getDataCadastro() == null && tbPessoa.getTipo() != tipo) {
 					Date data = new Date();
 					this.tbPessoa.setDataCadastro(data);
 				}
@@ -233,16 +236,16 @@ public class PessoaControle implements Serializable {
 		if (this.tbPessoa.getTipo().equals(TipoEnum.ADM) || this.tbPessoa.getTipo().equals(TipoEnum.EST)) {
 
 			if (tbPessoaSelecionada != null) {
-				TbPessoa pessoaSalvar = pessoaService.alterar(this.tbPessoa);
+				TbPessoa pessoaSalvar = pessoaService.salvar(this.tbPessoa);
 				turmaService.isNullPessoaTurma(pessoaSalvar);
 				tbContato.setTbPessoa(pessoaSalvar);
-				contatoService.alterar(this.tbContato);
+				contatoService.salvar(this.tbContato);
 				tbEndereco.setTbCidade(this.tbCidade);
 				tbEndereco.setTbPessoa(pessoaSalvar);
-				enderencoService.alterar(this.tbEndereco);
+				enderencoService.salvar(this.tbEndereco);
 				tbUsuario.setMatSenha(Sha256.shaSet(this.tbUsuario.getMatSenha()));
 				tbUsuario.setTbPessoa(pessoaSalvar);
-				usuarioService.alterar(this.tbUsuario);
+				usuarioService.salvar(this.tbUsuario);
 				tbUsuario.setMatSenha("");
 				buscarTodos();
 				UtilMensagens.mensagemInformacao("Pessoa alterando com sucesso!");

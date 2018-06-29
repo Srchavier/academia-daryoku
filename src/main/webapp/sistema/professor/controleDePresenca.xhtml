@@ -32,7 +32,7 @@
 						required="true" requiredMessage="Informe um aula." filter="true">
 						<f:selectItem itemLabel="Selecione uma aula" />
 						<f:selectItems value="#{presencaControle.aulasList}" var="aula"
-							itemValue="#{aula}" itemLabel="#{aula.dtAula}" />
+							itemValue="#{aula}" itemLabel="#{presencaControle.labelAula(aula.dtAula)}" />
 					</p:selectOneMenu>
 				</div>
 				<div class="ui-g-12 ui-md-1">

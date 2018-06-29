@@ -1,8 +1,10 @@
 package br.com.academiaDaryoku.controle;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -130,6 +132,10 @@ public class PresencaControle implements Serializable {
 			return turmasService.turmaPorPessoa(usuario.getTbPessoa());
 		}
 		return null;
+	}
+	
+	public String labelAula(Date dataAula) {
+		return DateFormat.getDateInstance().format(dataAula);
 	}
 
 	public List<TbPresenca> getTbpresencaList() {
